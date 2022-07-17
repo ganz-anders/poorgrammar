@@ -1,0 +1,124 @@
+@startuml ClassDiagram
+enum Direction
+{
+    N,NO,O,SO,S,SW,W,NW
+}
+
+enum SnowProblem
+{
+    Neuschnee, Triebschnee, Nassschnee, Altschnee, Gleitschnee
+}
+
+enum AvalancheLevel
+{
+    gering, mäßig, erheblich, groß, sehr_groß
+}
+
+enum RiskLevel
+{
+    niedrig,mittel,hoch
+}
+
+struct Position
+{
+    + int longitude <<get>>, <<set>>
+    + int latitude <<get>>, <<set>>
+}
+
+struct AvalancheLevel_Height
+{
+    + int UpperLimit <<get>>, <<set>>
+    + AvalancheLevel AvalancheLevel <<get>>, <<set>>
+}
+
+class AvalancheStatusReport
+{
+    - List<AvalancheLevel_Height> AvalancheLevel_Height
+    - Dictionary<Direction, List<SnowProblem>> SnowProblem_Direction
+    + void printReport(sr StreamWriter)
+    + AvalancheLevel getAvalancheLevel_Height(height int)
+    + SnowProblem getSnowProblem_Dircetion(direction Direction)
+    + AvalancheStatusReport()
+}
+
+class Map
+{
+    - float[] MapData
+    + int getGradient(position Position)
+    + Direction getDirection(position Position)
+    + int getHeightAboveSL(Position Position)
+    - void MapFromTxt()
+    + Map()
+}
+
+class Warnings
+{
+    + void PushMessage(RiskEventArgs)
+    + void Sound(RiskEventArgs)
+    + void MessagewithSound(RiskEventArgs)
+    + void MessagewithSoundandFlashingLight(RiskEventArgs)
+}
+
+class Logging
+{
+    + void LogPosition(PositionChangedEventArgs)
+    + void LogWarning(RiskEventArgs)
+}
+
+class PositionChangedEventArgs
+{
+    + Position Position
+    + DateTime Time
+}
+
+class RiskEventArgs
+{
+    + DateTime Time
+    + RiskLevel RiskLevel
+    + SnowProblem SnowProblem
+}
+
+class AvalancheWarnSystem
+{
+    + event EventHandler<PositionChangedEventArgs> OnPositionChanged
+    + event EventHandler<RiskEventArgs> OnRiskAbove1
+    + event EventHandler<RiskEventArgs> OnRiskAbove2
+    + Map thisMap
+    + AvalancheStatusReport myAVSReport
+    + RiskLevel[][] RiskMatrix
+    + Position CurrentPosition <<get>>,  <<set>>
+    + void EvaluatePosition()
+    - void ConfigurateWarnings()
+    - void ConfigurateMap()
+    - int[][] RiskMatrixFromTxt(fp FilePointer)  
+    + AvalancheWarnSystem()
+}
+
+struct WorkingPosition
+{
+    Time:int
+    Postion:Position    
+}
+class SimulationSystem
+{
+    - AvalancheWarnSystem myWarnSystem
+    - Queue<WorkingPosition> Route
+    - ReadinTestRoute():Queue<WorkingPosition>
+    - PositionSimulation(Route Queue<WorkingPosition>)
+    + Main()
+}
+
+RiskEventArgs --* Warnings
+PositionChangedEventArgs --* Logging
+EventArgs <|-- RiskEventArgs
+EventArgs <|-- PositionChangedEventArgs
+AvalancheLevel_Height --> AvalancheStatusReport
+Position --* RiskEventArgs
+Position --* PositionChangedEventArgs
+Position --* AvalancheWarnSystem
+AvalancheStatusReport --* AvalancheWarnSystem
+Map --* AvalancheWarnSystem
+AvalancheWarnSystem --* SimulationSystem
+WorkingPosition --* SimulationSystem
+
+@enduml
