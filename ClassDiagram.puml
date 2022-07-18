@@ -43,7 +43,7 @@ class AvalancheStatusReport
 
 class Map
 {
-    - double[] MapData
+    - double[][] MapData
     - Position NWReference;
     - Position SEREference;
     - string UTMZoneReference;
