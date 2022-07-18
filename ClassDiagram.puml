@@ -33,7 +33,7 @@ struct AvalancheLevel_Height
 
 class AvalancheStatusReport
 {
-    - List<AvalancheLevel_Height> AvalancheLevel_Height
+    - List<AvalancheLevel_Height> AvalancheLevel_ac2Height
     - Dictionary<Direction, List<SnowProblem>> SnowProblem_Direction
     + void printReport(sr StreamWriter)
     + AvalancheLevel getAvalancheLevel_Height(height int)
@@ -43,9 +43,14 @@ class AvalancheStatusReport
 
 class Map
 {
+6-map
     - Position NWReference;
     - Position SEREference;
     - double[][] MapData
+    - Position NWReference;
+    - Position SEREference;
+    - string UTMZoneReference;
+ main
     + int getGradient(position Position)
     + Direction getDirection(position Position)
     + int getHeightAboveSL(Position Position)
