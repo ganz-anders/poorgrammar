@@ -45,7 +45,7 @@ class Map
 {
 6-map
     - Position NWReference;
-    - Position SEREference;
+    - Position SEReference;
     - double[][] MapData
     - Position NWReference;
     - Position SEREference;
@@ -54,7 +54,6 @@ class Map
     + int getGradient(position Position)
     + Direction getDirection(position Position)
     + int getHeightAboveSL(Position Position)
-    - void MapFromTxt()
     + Map()
 }
 
