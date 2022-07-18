@@ -1,3 +1,4 @@
+using System.Globalization;
 class Map
 {
     private const float Grid=10.0f; //Map grid in m
@@ -123,6 +124,9 @@ class Map
         int xsize=0, ysize=0;
         StreamReader sr;
 
+        NumberFormatInfo provider = new NumberFormatInfo();
+        provider.NumberDecimalSeparator = ".";
+
         Console.WriteLine("Karte einlesen...");
         try
         {
@@ -176,7 +180,7 @@ class Map
                     inputs=buffer.Split("\t");
                     for (int j = 0; j < xsize; j++)
                     {
-                        MapData[j][i]=Convert.ToDouble(inputs[j]);
+                        MapData[j][i]=Convert.ToDouble(inputs[j],provider);
                     }
                 }else
                 {
