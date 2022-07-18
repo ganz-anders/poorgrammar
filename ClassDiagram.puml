@@ -43,7 +43,9 @@ class AvalancheStatusReport
 
 class Map
 {
-    - float[] MapData
+    - Position NWReference;
+    - Position SEREference;
+    - double[][] MapData
     + int getGradient(position Position)
     + Direction getDirection(position Position)
     + int getHeightAboveSL(Position Position)
