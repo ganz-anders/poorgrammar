@@ -43,10 +43,14 @@ class AvalancheStatusReport
 
 class Map
 {
+6-map
+    - Position NWReference;
+    - Position SEREference;
     - double[][] MapData
     - Position NWReference;
     - Position SEREference;
     - string UTMZoneReference;
+ main
     + int getGradient(position Position)
     + Direction getDirection(position Position)
     + int getHeightAboveSL(Position Position)
