@@ -4,7 +4,7 @@ class Map
     private Position NWReference; //Reference point at the North-West End of the map
     private Position SEReference; //Reference point at the South-East End of the map
     private string UTMZoneReference;
-    private float[][] MapData; //like in a matrix the first value is the y value and the second is the x
+    private double[][] MapData; //like in a matrix the first value is the y value and the second is the x
     public bool PositionOnMap(Position position)
     {
         return NWReference.longitude<position.longitude&&position.longitude<SEReference.longitude
@@ -163,10 +163,10 @@ class Map
                 throw new Exception();
             }
 
-            MapData= new float[xsize][];
+            MapData= new double[xsize][];
             for (int i = 0; i < xsize; i++)
             {
-                MapData[i]=new float[ysize];
+                MapData[i]=new double[ysize];
             }
             for (int i = 0; i < ysize; i++)
             {
@@ -176,7 +176,7 @@ class Map
                     inputs=buffer.Split("\t");
                     for (int j = 0; j < xsize; j++)
                     {
-                        MapData[j][i]=Convert.ToSingle(inputs[j]);
+                        MapData[j][i]=Convert.ToDouble(inputs[j]);
                     }
                 }else
                 {
