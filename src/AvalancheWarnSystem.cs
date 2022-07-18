@@ -7,7 +7,7 @@ class AvalancheWarnSystem
     public AvalancheStatusReport myAVSReport;
     public RiskLevel[][] RiskMatrix;        //Matrix[Gradient][AVLevel] wich contains an RiskLevel
                                             //Gradient 0 represents <30°, 1 repr. <35°, 2 repr. <40°, 3 repr. >=40°
-    public Position CurrentPosition {get; private set}
+    private Position CurrentPosition;
     public void manipulatePosition(Position position)
     {
         this.CurrentPosition=position;
