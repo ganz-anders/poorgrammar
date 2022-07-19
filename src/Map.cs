@@ -34,6 +34,8 @@ class Map
         Grad=Math.Sqrt(xGrad*xGrad+yGrad*yGrad);
         Grad=Math.Truncate(Grad);
 
+        Grad=Math.Tan(Grad);
+
         return((int)Grad);
     }
     public Direction? getDirection(Position position)
