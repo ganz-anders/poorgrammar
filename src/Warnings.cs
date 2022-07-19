@@ -20,11 +20,12 @@ class Warnings
         Thread.Sleep(10);
         Console.Beep();
     }
-    public void MessagewithSound(object? caller,RiskEventArgs args)
+    // not needed anymore (Event could be linked with the both seperate delegates)
+    /*public void MessagewithSound(object? caller,RiskEventArgs args)
     {
         Sound(caller,args);
         PushMessage(caller,args);
-    }
+    }*/
     public void MessagewithSoundandFlashingLight(object? caller,RiskEventArgs args)
     {
         Sound(caller, args);
