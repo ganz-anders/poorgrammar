@@ -39,6 +39,7 @@ class AvalancheStatusReport
     + AvalancheLevel getAvalancheLevel_Height(height int)
     + SnowProblem getSnowProblem_Dircetion(direction Direction)
     + AvalancheStatusReport()
+    + AvalancheStatusReport(object)
 }
 
 class Map
@@ -99,6 +100,7 @@ class AvalancheWarnSystem
     - void ConfigurateWarnings()
     - RiskLevel[][] RiskMatrixFromTxt(string path)
     + AvalancheWarnSystem()
+    + AvalancheWarnSystem(object test)
 }
 
 struct WorkingPosition
