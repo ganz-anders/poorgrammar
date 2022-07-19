@@ -1,8 +1,9 @@
 class AvalancheWarnSystem
 {
-    public event EventHandler<PositionChangedEventArgs> OnPositionChanged;
-    public event EventHandler<RiskEventArgs> OnRiskmid;
-    public event EventHandler<RiskEventArgs> OnRiskhigh;
+    public event EventHandler<PositionChangedEventArgs>? OnPositionChanged;
+    public event EventHandler<RiskEventArgs>? OnRiskmid;
+    public event EventHandler<RiskEventArgs>? OnRiskhigh;
+    private Logging? myLogging;
     public Map thisMap;
     public AvalancheStatusReport myAVSReport;
     public RiskLevel[][] RiskMatrix;        //Matrix[Gradient][AVLevel] wich contains an RiskLevel
@@ -11,6 +12,10 @@ class AvalancheWarnSystem
     public void manipulatePosition(Position position)
     {
         this.CurrentPosition=position;
+        if (OnPositionChanged!=null)
+        {
+            OnPositionChanged(new PositionChangedEventArgs(position, DateTime.Now));
+        }
     }
     public void EvaluatePosition()
     {
@@ -45,26 +50,92 @@ class AvalancheWarnSystem
             case RiskLevel.niedrig:
                 //everything is fine
             case RiskLevel.mittel:
-                OnRiskmid(new RiskEventArgs(DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction(myExposition)));
+               if (OnRiskmid!=null)
+               {
+                 OnRiskmid(new RiskEventArgs(DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction(myExposition)));
+               }
                 break;
             case RiskLevel.hoch:
-                OnRiskhigh(new RiskEventArgs(DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction(myExposition));
+                if (OnRiskhigh!=null)
+                {
+                    OnRiskhigh(new RiskEventArgs(DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction(myExposition));
+                }
                 break;
             default:
                 break;
         }
     }
+    private void InitiateLogging()
+    {
+        const string Logfilepath="data/LogDatei.txt";
+        StreamWriter sw = new StreamWriter(Logfilepath);
+        myLogging = new Logging(sw);
+        OnPositionChanged+= new EventHandler<PositionChangedEventArgs>(Logging.LogPosition);
+        OnRiskmid+= new EventHandler<RiskEventArgs>(Logging.LogWarning);
+        OnRiskhigh+= new EventHandler<RiskEventArgs>(Logging.LogWarning);
+        Console.WriteLine("Logging eingerichtet. Sie finden die Datei unter " + Logfilepath);
+    }
     private void ConfigurateWarnings()
     {
+        Console.WriteLine("Wollen Sie die Warnungen selbst einstellen? [y/n]\nAnsonsten werden die Standards geladen.");
+        string? input=Console.ReadLine();
+        bool isinput=false;
+        bool selfConfig=false;
+        do
+        {
+            switch (input)
+            {
+                case "y":
+                    isinput=true;
+                    selfConfig=true;
+                    break;
+                case "n":
+                    isinput=true;
+                    selfConfig=false;
+                    break;
+                case "Y":
+                    isinput=true;
+                    selfConfig=true;
+                    break;
+                case "N":
+                    isinput=true;
+                    selfConfig=false;
+                    break;
+                default:
+                    Console.WriteLine("Eingabe nicht erkannt.\nWollen Sie die Warnungen selbst einstellen? [y/n]");
+                    input=Console.ReadLine();
+                    break;
+            }   
+        } while (!isinput);
 
-    }
-    private void ConfigurateMap()
-    {
+        if (selfConfig)
+        {
+            try
+            {
+                //
+            }
+            catch (System.Exception)
+            {
+                selfConfig=false;       //if self config failed standards should be loaded without another questioning
+                Console.Write("Error. ");
+            }
+        }
 
+        if (!selfConfig)    //also true if selfconfig failed
+        {
+            Console.WriteLine("Standards werden geladen.");
+        }
     }
-    private int[][] RiskMatrixFromTxt(fp FilePointer)
+    private RiskLevel[][] RiskMatrixFromTxt(string path)
     {
 
     }
     public AvalancheWarnSystem()
+    {
+        const string RiskMatrixPath="data/RiskMatrix.txt";
+        myAVSReport=new AvalancheStatusReport();
+        thisMap=new Map();
+        ConfigurateWarnings();
+        RiskMatrix=RiskMatrixFromTxt(RiskMatrixPath);
+    }
 }
