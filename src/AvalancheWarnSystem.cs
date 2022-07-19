@@ -68,8 +68,8 @@ class AvalancheWarnSystem
     private void InitiateLogging()
     {
         const string Logfilepath="data/LogDatei.txt";
-        StreamWriter sw = new StreamWriter(Logfilepath);
-        myLogging = new Logging(sw);
+        myLogging = new Logging(Logfilepath);
+        
         OnPositionChanged+= new EventHandler<PositionChangedEventArgs>(Logging.LogPosition);
         OnRiskmid+= new EventHandler<RiskEventArgs>(Logging.LogWarning);
         OnRiskhigh+= new EventHandler<RiskEventArgs>(Logging.LogWarning);

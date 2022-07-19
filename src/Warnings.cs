@@ -1,6 +1,6 @@
 class Warnings
 {
-    public void PushMessage(RiskEventArgs args)
+    public void PushMessage(object? caller,RiskEventArgs args)
     {
         Console.WriteLine($"Achtung. Lawinengefahr. {args.Time}");
         Console.WriteLine($"Aktuelle Position: {args.Position}");
@@ -12,7 +12,7 @@ class Warnings
         }
 
     }
-    public void Sound(RiskEventArgs args)
+    public void Sound(object? caller,RiskEventArgs args)
     {
         Console.Beep();
         Thread.Sleep(10);
@@ -20,14 +20,14 @@ class Warnings
         Thread.Sleep(10);
         Console.Beep();
     }
-    public void MessagewithSound(RiskEventArgs args)
+    public void MessagewithSound(object? caller,RiskEventArgs args)
     {
-        Sound(args);
-        PushMessage(args);
+        Sound(caller,args);
+        PushMessage(caller,args);
     }
-    public void MessagewithSoundandFlashingLight(RiskEventArgs args)
+    public void MessagewithSoundandFlashingLight(object? caller,RiskEventArgs args)
     {
-        Sound(args);
+        Sound(caller, args);
         for (int i = 0; i < 5; i++)
         {
             Console.BackgroundColor = ConsoleColor.Red;
@@ -37,6 +37,6 @@ class Warnings
             Console.Clear();
             Thread.Sleep(50);
         }
-        PushMessage(args);
+        PushMessage(caller, args);
     }
 }
