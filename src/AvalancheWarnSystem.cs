@@ -108,11 +108,113 @@ class AvalancheWarnSystem
             }   
         } while (!isinput);
 
-        if (selfConfig)
+        if (selfConfig) //self configuration of warnings
         {
             try
             {
-                //
+                //Self config of Logging (on/off)
+                Console.WriteLine("Wollen Sie eine LogDatei schreiben? [y/n]");
+                input=Console.ReadLine();
+                isinput=false;
+                do
+                {
+                    switch (input)
+                    {
+                        case "y":
+                            isinput=true;
+                            InitiateLogging();
+                            break;
+                        case "n":
+                            isinput=true;
+                            Console.WriteLine("Logging: aus");
+                            break;
+                        case "Y":
+                            isinput=true;
+                            InitiateLogging();
+                            break;
+                        case "N":
+                            isinput=true;
+                            Console.WriteLine("Logging: aus");
+                            break;
+                        default:
+                            Console.WriteLine("Eingabe nicht erkannt.\nWollen Sie eine LogDatei schreiben? [y/n]");
+                            input=Console.ReadLine();
+                            break;
+                    }   
+                } while (!isinput);
+
+                //Self config of warnings
+                Console.WriteLine("Welche Warnungen wollen Sie bei erhöhtem Risiko (mittlere Stufe)?");
+                Console.WriteLine("1 - Push Benachrichtigung\n2 - Ton\n3 - Benachrichtigung mit Ton\n4 - Benachrichtigung mit Ton und Blinklicht\n0 - Abbrechen Standards laden");
+                input=Console.ReadLine();
+                isinput=false;
+                do
+                {
+                    switch (input)
+                    {
+                        case "1":
+                            isinput=true;
+                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
+                            break;
+                        case "2":
+                            isinput=true;
+                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            break;
+                        case "3":
+                            isinput=true;
+                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
+                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            break;
+                        case "4":
+                            isinput=true;
+                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.MessagewithFlashingLight);
+                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            break;
+                        case "0":
+                            throw new Exception();
+                        default:
+                            Console.WriteLine("Eingabe nicht erkannt.\nWelche Warnungen wollen Sie bei erhöhtem Risiko (mittlere Stufe)?");
+                            input=Console.ReadLine();
+                            break;
+                    }   
+                } while (!isinput);
+                
+                //selfconfig of high risk warnings
+                Console.WriteLine("Welche Warnungen wollen Sie bei hohem Risiko (oberste Stufe)?");
+                Console.WriteLine("1 - Push Benachrichtigung\n2 - Ton\n3 - Benachrichtigung mit Ton\n4 - Benachrichtigung mit Ton und Blinklicht\n0 - Abbrechen-Standards laden");
+                input=Console.ReadLine();
+                isinput=false;
+                do
+                {
+                    switch (input)
+                    {
+                        case "1":
+                            isinput=true;
+                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
+                            break;
+                        case "2":
+                            isinput=true;
+                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            break;
+                        case "3":
+                            isinput=true;
+                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
+                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            break;
+                        case "4":
+                            isinput=true;
+                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.MessagewithFlashingLight);
+                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            break;
+                        case "0":
+                            throw new Exception();
+                        default:
+                            Console.WriteLine("Eingabe nicht erkannt.\nWelche Warnungen wollen Sie bei erhöhtem Risiko (mittlere Stufe)?");
+                            input=Console.ReadLine();
+                            break;
+                    }   
+                } while (!isinput);
+
             }
             catch (System.Exception)
             {
@@ -124,8 +226,16 @@ class AvalancheWarnSystem
         if (!selfConfig)    //also true if selfconfig failed
         {
             Console.WriteLine("Standards werden geladen.");
+            InitiateLogging();
+            
+            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
+            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+
+            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.MessagewithFlashingLight);
+            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.Sound);
         }
     }
+
     private RiskLevel[][] RiskMatrixFromTxt(string path)
     {
 
