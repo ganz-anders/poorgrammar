@@ -35,7 +35,8 @@ class AvalancheStatusReport
 {
     - List<AvalancheLevel_Height> AvalancheLevel_ac2Height
     - Dictionary<Direction, List<SnowProblem>> SnowProblem_Direction
-    + void printReport(sr StreamWriter)
+    + void printReport(string filepath)
+    + void printReport()
     + AvalancheLevel getAvalancheLevel_Height(height int)
     + SnowProblem getSnowProblem_Dircetion(direction Direction)
     + AvalancheStatusReport()

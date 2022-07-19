@@ -12,8 +12,9 @@ class AvalancheStatusReport
 {
     private List<AvalancheLevel_Height> AvalancheLevel_ac2Height;
     private Dictionary<Direction, List<SnowProblem>> SnowProblem_Direction;
-    public void printReport(StreamWriter sw)
+    public void printReport(string filepath)
     {
+        StreamWriter sw = new StreamWriter(filepath, append:true);
         sw.WriteLine($"Lawinen-Lage-Bericht für heute den {DateTime.Today} \n...");
         foreach (var item in AvalancheLevel_ac2Height)
         {
@@ -39,6 +40,7 @@ class AvalancheStatusReport
             sw.WriteLine(string.Join(',',output));
         }
         Console.WriteLine("_____");
+        sw.Close();
     }
 
     public void printReport()
