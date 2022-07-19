@@ -1,6 +1,6 @@
 class Warnings
 {
-    public void PushMessage(object? caller,RiskEventArgs args)
+    public static void PushMessage(object? caller,RiskEventArgs args)
     {
         Console.WriteLine($"Achtung. Lawinengefahr. {args.Time}");
         Console.WriteLine($"Aktuelle Position: {args.Position}");
@@ -12,7 +12,7 @@ class Warnings
         }
 
     }
-    public void Sound(object? caller,RiskEventArgs args)
+    public static void Sound(object? caller,RiskEventArgs args)
     {
         Console.Beep();
         Thread.Sleep(10);
@@ -21,12 +21,12 @@ class Warnings
         Console.Beep();
     }
     // not needed anymore (Event could be linked with the both seperate delegates)
-    /*public void MessagewithSound(object? caller,RiskEventArgs args)
+    /*public static void MessagewithSound(object? caller,RiskEventArgs args)
     {
         Sound(caller,args);
         PushMessage(caller,args);
     }*/
-    public void MessagewithSoundandFlashingLight(object? caller,RiskEventArgs args)
+    public static void MessagewithSoundandFlashingLight(object? caller,RiskEventArgs args)
     {
         Sound(caller, args);
         for (int i = 0; i < 5; i++)
