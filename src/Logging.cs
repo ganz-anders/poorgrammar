@@ -5,7 +5,7 @@ class Logging
     {
         if(Filepath!=null)
         {
-            StreamWriter sw = new StreamWriter(Filepath);
+            StreamWriter sw = new StreamWriter(Filepath, append: true);
             sw.WriteLine($"__________\nPosition {args.Time} : {args.Position}\n__________");
             sw.Close();
         } else 
@@ -17,7 +17,7 @@ class Logging
     {
         if(Filepath!=null)
         {
-            StreamWriter sw = new StreamWriter(Filepath);
+            StreamWriter sw = new StreamWriter(Filepath, append : true);
             sw.WriteLine($"----------\nLawinengefahr.{args.Time}");
             sw.WriteLine($"Risiko für einen Lawinenabgang: {Enum.GetName(args.RiskLevel)}");
             sw.WriteLine($"Besonders folgende Schneeprobleme: ");
