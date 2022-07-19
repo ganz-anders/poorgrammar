@@ -64,6 +64,10 @@ class SimulationSystem
 
         //start execution of Threads
         Thread PositionSimul = new Thread(SimulationSystem.PositionSimulation);
-        Thread PositionEvaluation= new Thread(myWarnSystem.EvaluatePosition);
+        Thread PositionEvaluation= new Thread(myWarnSystem.CountinuousEvaluatePosition);
+        PositionEvaluation.IsBackground=true;
+
+        PositionSimul.Start();
+        PositionEvaluation.Start(500);
     }
 }

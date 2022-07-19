@@ -78,8 +78,25 @@ class AvalancheWarnSystem
         }
     }
 
-    public void CountinuousEvaluatePosition(int SleepTime)
+    public void CountinuousEvaluatePosition(object? sleepTime)
     {
+        const int StandardSleepTime=500;
+        int SleepTime;
+        if (sleepTime!=null)
+        {
+            try
+            {
+                SleepTime = Convert.ToInt32(sleepTime as int?);
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine("SleepTime of the continuous Position Evaluation not processible. Loading Standards...");
+                SleepTime=StandardSleepTime;
+            }
+        } else 
+        {
+            SleepTime=StandardSleepTime;
+        }
         while (true)
         {
             EvaluatePosition();
