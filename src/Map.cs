@@ -1,7 +1,7 @@
 using System.Globalization;
 class Map
 {
-    private const float Grid=10.0f; //Map grid in m
+    private const float Grid=250.0f; //Map grid in m
     private Position NWReference; //Reference point at the North-West End of the map
     private Position SEReference; //Reference point at the South-East End of the map
     private string UTMZoneReference;
@@ -18,8 +18,8 @@ class Map
             throw new Exception("Out of the Map.");
         }
         double xGrad, yGrad, Grad;
-        double x=position.longitude;
-        double y=position.latitude;
+        double x=(position.longitude-NWReference.longitude)/Grid;
+        double y=(position.latitude-NWReference.latitude)/Grid;
         double P11=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)];
         double P12=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
         double P22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
@@ -32,7 +32,11 @@ class Map
         xGrad=Math.Abs(xGrad);
 
         Grad=Math.Sqrt(xGrad*xGrad+yGrad*yGrad);
-        Grad=Math.Truncate(Grad);
+        
+        Grad=Math.Atan(Grad)*(180/Math.PI);
+
+        Grad=Math.Round(Grad);
+
 
         return((int)Grad);
     }
@@ -102,23 +106,24 @@ class Map
         double Q22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
         double Q21=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
         
-        R1=((Q21-Q11)/Grid)*(x-Math.Truncate(x));
-        R2=((Q22-Q12)/Grid)*(x-Math.Truncate(x));
+        //R1=Q11+((Q21-Q11)/Grid)*(x-Math.Truncate(x));
+        //R2=Q12+((Q22-Q12)/Grid)*(x-Math.Truncate(x));
 
-        //R1=(((Math.Truncate(x)+Grid-x)/Grid)*Q11+((x-Math.Truncate(x))/Grid)*Q21);
-        //R2=(((Math.Truncate(x)+Grid-x)/Grid)*Q12+((x-Math.Truncate(x))/Grid)*Q22);
+        R1=(((Math.Truncate(x)+Grid-x)/Grid)*Q11+((x-Math.Truncate(x))/Grid)*Q21);
+        R2=(((Math.Truncate(x)+Grid-x)/Grid)*Q12+((x-Math.Truncate(x))/Grid)*Q22);
 
-        P=((R2-R1)/Grid)*(y-Math.Truncate(y));
-        //P=((Math.Truncate(y)-y)/(Grid))*R1 + ((y-(Math.Truncate(y)+Grid))/(Grid))*R2;
+        //P=R1+((R2-R1)/Grid)*(y-Math.Truncate(y));
 
-        P=Math.Truncate(P);
+        P=-(((Math.Truncate(y)-y)/(Grid))*R1 + ((y-(Math.Truncate(y)+Grid))/(Grid))*R2);
+
+        P=Math.Round(P);
 
         return (int)P;
 
     }
     public Map()
     {
-        const string fileaddress="map.txt";
+        const string fileaddress="data/map.txt";
         string? buffer;
         string[] inputs;
         int xsize=0, ysize=0;
