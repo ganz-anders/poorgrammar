@@ -123,7 +123,7 @@ class Map
     }
     public Map()
     {
-        const string fileaddress="map.txt";
+        const string fileaddress="data/map.txt";
         string? buffer;
         string[] inputs;
         int xsize=0, ysize=0;
