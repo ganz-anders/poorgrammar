@@ -6,4 +6,4 @@ Es soll ein Warnsystem erstellt werden, um Skitourengeher zu warnen bzw. an ihre
 Die Umsetztung ist im Wiki unter "Thema" zu finden.
 
 ### Ziel
-Die Nutzenden unserer Lawinenwarnung sollen beruhigt Skitouren gehen können, da sie auf ihren Handys eine Warnung ihrer Wahl erhalten, falls sie sich in Gefahr befinden. Am Ende des Tages können sie
+Die Nutzenden unserer Lawinenwarnung sollen beruhigt Skitouren gehen können, da sie auf ihren Handys eine Warnung ihrer Wahl erhalten, falls sie sich in Gefahr befinden. Am Ende des Tages können sie zusätzlich ihre am Tag zurückgelegte Route anschauen.
