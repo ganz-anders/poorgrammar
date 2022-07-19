@@ -250,14 +250,59 @@ class AvalancheWarnSystem
 
     private RiskLevel[][] RiskMatrixFromTxt(string path)
     {
+        RiskLevel[][] ReturnMatrix= new RiskLevel[4][];
+            
+        for (int i = 0; i < ReturnMatrix.Length; i++)
+        {
+            ReturnMatrix[i]= new RiskLevel[5];
+        }
 
+        try
+        {
+            StreamReader sr;
+            try
+            {
+                sr = new StreamReader(path);
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine("Error. Risk Matrix not found. Moved or deleted?");
+                throw;
+            }
+            string? buffer;
+            string[] inputs;
+            
+            for (int i = 0; i < 4; i++)
+            {
+                buffer=sr.ReadLine();
+                if (buffer==null)
+                {
+                    throw new Exception("Line 1 to 4 can't be empty");
+                }
+                inputs=buffer.Split(",");
+                for (int j = 0; j < 5; j++)
+                {
+                    ReturnMatrix[i][j]=(RiskLevel)(Convert.ToInt32(inputs[j])-1);
+                }
+            }
+
+        }
+        catch (System.Exception)
+        {
+            Console.WriteLine("Error hwile Reading Risk matrix");
+            throw;
+        }
+
+        return ReturnMatrix;
     }
+
     public AvalancheWarnSystem()
     {
         const string RiskMatrixPath="data/RiskMatrix.txt";
+        RiskMatrix=RiskMatrixFromTxt(RiskMatrixPath);
         myAVSReport=new AvalancheStatusReport();
         thisMap=new Map();
         ConfigurateWarnings();
-        RiskMatrix=RiskMatrixFromTxt(RiskMatrixPath);
+        //RiskMatrix=RiskMatrixFromTxt(RiskMatrixPath);
     }
 }
