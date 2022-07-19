@@ -36,7 +36,7 @@ class SimulationSystem
 
         return ReturnRoute;
     }
-    private static void PositionSimulation(Queue<WorkingPosition> Route)
+    private static void PositionSimulation()
     {
         if (Route!=null)
         {
@@ -63,5 +63,7 @@ class SimulationSystem
         myWarnSystem = new AvalancheWarnSystem();
 
         //start execution of Threads
+        Thread PositionSimul = new Thread(SimulationSystem.PositionSimulation);
+        Thread PositionEvaluation= new Thread(myWarnSystem.EvaluatePosition);
     }
 }

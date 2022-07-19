@@ -110,7 +110,7 @@ class SimulationSystem
     - AvalancheWarnSystem myWarnSystem
     - List<WorkingPosition> Route
     - ReadinTestRoute():List<WorkingPosition>
-    - PositionSimulation(Route List<WorkingPosition>)
+    - PositionSimulation()
     + Main()
 }
 
