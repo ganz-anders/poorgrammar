@@ -5,7 +5,7 @@ class Logging
     {
         if(sw!=null)
         {
-            sw.Write($"_____\nPosition {args.Time} : N{args.Position.longitude} W{args.Position.latitude}");
+            sw.WriteLine($"__________\nPosition {args.Time} : N{args.Position.longitude} W{args.Position.latitude}\n__________");
         } else 
         {
             Console.WriteLine("Error! Logging not possible.");
@@ -15,7 +15,7 @@ class Logging
     {
         if(sw!=null)
         {
-            sw.WriteLine($"----------Lawinengefahr.{args.Time}");
+            sw.WriteLine($"----------\nLawinengefahr.{args.Time}");
             sw.WriteLine($"Risiko für einen Lawinenabgang: {Enum.GetName(args.RiskLevel)}");
             sw.WriteLine($"Besonders folgende Schneeprobleme: ");
             foreach (SnowProblem item in args.SnowProblems)
