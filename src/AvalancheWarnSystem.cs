@@ -14,7 +14,7 @@ class AvalancheWarnSystem
         this.CurrentPosition=position;
         if (OnPositionChanged!=null)
         {
-            OnPositionChanged(new PositionChangedEventArgs(position, DateTime.Now));
+            OnPositionChanged(this, new PositionChangedEventArgs(position, DateTime.Now));
         }
     }
     public void EvaluatePosition()
@@ -52,13 +52,25 @@ class AvalancheWarnSystem
             case RiskLevel.mittel:
                if (OnRiskmid!=null)
                {
-                 OnRiskmid(new RiskEventArgs(DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction(myExposition)));
+                    if (myExposition!=null)
+                        {
+                            OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction((Direction)myExposition)));   
+                        }else
+                        {
+                            OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, new List<SnowProblem>()));
+                        }
                }
                 break;
             case RiskLevel.hoch:
                 if (OnRiskhigh!=null)
                 {
-                    OnRiskhigh(new RiskEventArgs(DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction(myExposition));
+                    if (myExposition!=null)
+                    {
+                        OnRiskhigh(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction((Direction)myExposition)));   
+                    }else
+                    {
+                        OnRiskhigh(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, new List<SnowProblem>()));
+                    }
                 }
                 break;
             default:
