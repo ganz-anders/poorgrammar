@@ -28,7 +28,7 @@ class Warnings
     }*/
     public static void MessagewithSoundandFlashingLight(object? caller,RiskEventArgs args)
     {
-        Sound(caller, args);
+        //Sound(caller, args);
         for (int i = 0; i < 5; i++)
         {
             Console.BackgroundColor = ConsoleColor.Red;
