@@ -1,7 +1,7 @@
 class Logging
 {
     private static StreamWriter? sw;
-    public void LogPosition(PositionChangedEventArgs args)
+    public static void LogPosition(object? caller, PositionChangedEventArgs args)
     {
         if(sw!=null)
         {
@@ -11,7 +11,7 @@ class Logging
             Console.WriteLine("Error! Logging not possible.");
         }
     }
-    public void LogWarning(RiskEventArgs args)
+    public static void LogWarning(object? caller,RiskEventArgs args)
     {
         if(sw!=null)
         {
