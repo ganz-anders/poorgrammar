@@ -77,6 +77,15 @@ class AvalancheWarnSystem
                 break;
         }
     }
+
+    public void CountinuousEvaluatePosition(int SleepTime)
+    {
+        while (true)
+        {
+            EvaluatePosition();
+            Thread.Sleep(SleepTime);
+        }
+    }
     private void InitiateLogging()
     {
         const string Logfilepath="data/LogDatei.txt";

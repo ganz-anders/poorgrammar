@@ -94,6 +94,7 @@ class AvalancheWarnSystem
     - Position CurrentPosition 
     + void manipulatePosition(Position position)
     + void EvaluatePosition()
+    + void CountinuousEvaluatePosition(int SleepTime)
     - void InitiateLogging()
     - void ConfigurateWarnings()
     - RiskLevel[][] RiskMatrixFromTxt(string path)
