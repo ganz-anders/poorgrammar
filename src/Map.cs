@@ -104,16 +104,17 @@ class Map
         double Q22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
         double Q21=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
         
-        R1=((Q21-Q11)/Grid)*(x-Math.Truncate(x));
-        R2=((Q22-Q12)/Grid)*(x-Math.Truncate(x));
+        //R1=Q11+((Q21-Q11)/Grid)*(x-Math.Truncate(x));
+        //R2=Q12+((Q22-Q12)/Grid)*(x-Math.Truncate(x));
 
-        //R1=(((Math.Truncate(x)+Grid-x)/Grid)*Q11+((x-Math.Truncate(x))/Grid)*Q21);
-        //R2=(((Math.Truncate(x)+Grid-x)/Grid)*Q12+((x-Math.Truncate(x))/Grid)*Q22);
+        R1=(((Math.Truncate(x)+Grid-x)/Grid)*Q11+((x-Math.Truncate(x))/Grid)*Q21);
+        R2=(((Math.Truncate(x)+Grid-x)/Grid)*Q12+((x-Math.Truncate(x))/Grid)*Q22);
 
-        P=((R2-R1)/Grid)*(y-Math.Truncate(y));
-        //P=((Math.Truncate(y)-y)/(Grid))*R1 + ((y-(Math.Truncate(y)+Grid))/(Grid))*R2;
+        //P=R1+((R2-R1)/Grid)*(y-Math.Truncate(y));
 
-        P=Math.Truncate(P);
+        P=-(((Math.Truncate(y)-y)/(Grid))*R1 + ((y-(Math.Truncate(y)+Grid))/(Grid))*R2);
+
+        P=Math.Round(P);
 
         return (int)P;
 
