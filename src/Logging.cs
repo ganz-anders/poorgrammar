@@ -5,7 +5,7 @@ class Logging
     {
         if(sw!=null)
         {
-            sw.WriteLine($"__________\nPosition {args.Time} : N{args.Position.longitude} W{args.Position.latitude}\n__________");
+            sw.WriteLine($"__________\nPosition {args.Time} : {args.Position}\n__________");
         } else 
         {
             Console.WriteLine("Error! Logging not possible.");
