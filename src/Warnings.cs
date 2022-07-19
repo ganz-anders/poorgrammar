@@ -26,7 +26,7 @@ class Warnings
         Sound(caller,args);
         PushMessage(caller,args);
     }*/
-    public static void MessagewithSoundandFlashingLight(object? caller,RiskEventArgs args)
+    public static void MessagewithFlashingLight(object? caller,RiskEventArgs args)
     {
         //Sound(caller, args);
         for (int i = 0; i < 5; i++)

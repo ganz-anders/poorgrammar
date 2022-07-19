@@ -59,7 +59,7 @@ class Warnings
 {
     + void PushMessage(object,RiskEventArgs)
     + void Sound(object,RiskEventArgs)
-    + void MessagewithSoundandFlashingLight(object,RiskEventArgs)
+    + void MessagewithFlashingLight(object,RiskEventArgs)
 }
 
 class Logging
