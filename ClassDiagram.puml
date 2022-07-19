@@ -86,17 +86,18 @@ class RiskEventArgs
 
 class AvalancheWarnSystem
 {
-    + event EventHandler<PositionChangedEventArgs> OnPositionChanged
-    + event EventHandler<RiskEventArgs> OnRiskAbove1
-    + event EventHandler<RiskEventArgs> OnRiskAbove2
+    + event EventHandler<PositionChangedEventArgs>? OnPositionChanged
+    + event EventHandler<RiskEventArgs>? OnRiskAbove1
+    + event EventHandler<RiskEventArgs>? OnRiskAbove2
+    - Logging? myLogging
     + Map thisMap
     + AvalancheStatusReport myAVSReport
     + RiskLevel[][] RiskMatrix
     + Position CurrentPosition <<get>>,  <<set>>
     + void EvaluatePosition()
+    - void InitiateLogging()
     - void ConfigurateWarnings()
-    - void ConfigurateMap()
-    - int[][] RiskMatrixFromTxt(fp FilePointer)  
+    - RiskLevel[][] RiskMatrixFromTxt(string path)
     + AvalancheWarnSystem()
 }
 
