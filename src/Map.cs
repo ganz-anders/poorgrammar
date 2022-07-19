@@ -47,8 +47,8 @@ class Map
             throw new Exception("Out of the Map.");
         }
         double xGrad, yGrad;
-        double x=position.longitude;
-        double y=position.latitude;
+        double x=(position.longitude-NWReference.longitude)/Grid;
+        double y=(position.latitude-NWReference.latitude)/Grid;
         double P11=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)];
         double P12=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
         double P22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
