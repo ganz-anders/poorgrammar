@@ -110,6 +110,8 @@ class AvalancheWarnSystem
         const string Logfilepath="data/LogDatei.txt";
         myLogging = new Logging(Logfilepath);
         
+        myAVSReport.printReport(Logfilepath);
+
         OnPositionChanged+= new EventHandler<PositionChangedEventArgs>(Logging.LogPosition);
         OnRiskmid+= new EventHandler<RiskEventArgs>(Logging.LogWarning);
         OnRiskhigh+= new EventHandler<RiskEventArgs>(Logging.LogWarning);
