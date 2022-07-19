@@ -1,7 +1,7 @@
 using System.Globalization;
 class Map
 {
-    private const float Grid=10.0f; //Map grid in m
+    private const float Grid=250.0f; //Map grid in m
     private Position NWReference; //Reference point at the North-West End of the map
     private Position SEReference; //Reference point at the South-East End of the map
     private string UTMZoneReference;
@@ -18,8 +18,8 @@ class Map
             throw new Exception("Out of the Map.");
         }
         double xGrad, yGrad, Grad;
-        double x=position.longitude;
-        double y=position.latitude;
+        double x=(position.longitude-NWReference.longitude)/Grid;
+        double y=(position.latitude-NWReference.latitude)/Grid;
         double P11=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)];
         double P12=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
         double P22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
@@ -32,9 +32,11 @@ class Map
         xGrad=Math.Abs(xGrad);
 
         Grad=Math.Sqrt(xGrad*xGrad+yGrad*yGrad);
-        Grad=Math.Truncate(Grad);
+        
+        Grad=Math.Atan(Grad)*(180/Math.PI);
 
-        Grad=Math.Tan(Grad);
+        Grad=Math.Round(Grad);
+
 
         return((int)Grad);
     }
