@@ -103,5 +103,6 @@ class SimulationSystem
 
         PositionSimul.Start();
         PositionEvaluation.Start(500);
+        Console.WriteLine("System is running.");
     }
 }

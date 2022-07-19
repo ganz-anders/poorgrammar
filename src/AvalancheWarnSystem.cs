@@ -49,6 +49,7 @@ class AvalancheWarnSystem
         {
             case RiskLevel.niedrig:
                 //everything is fine
+                break;
             case RiskLevel.mittel:
                if (OnRiskmid!=null)
                {
@@ -99,6 +100,7 @@ class AvalancheWarnSystem
         }
         while (true)
         {
+            Console.Write(".");
             EvaluatePosition();
             Thread.Sleep(SleepTime);
         }

@@ -2,7 +2,7 @@ class Warnings
 {
     public static void PushMessage(object? caller,RiskEventArgs args)
     {
-        Console.WriteLine("_____");
+        Console.WriteLine("\n_____");
         Console.WriteLine($"Achtung. Lawinengefahr. {args.Time}");
         Console.WriteLine($"Aktuelle Position: {args.Position}");
         Console.WriteLine($"Risiko für einen Lawinenabgang: {Enum.GetName(args.RiskLevel)}");
