@@ -94,6 +94,7 @@ class AvalancheWarnSystem
     - Position CurrentPosition 
     + void manipulatePosition(Position position)
     + void EvaluatePosition()
+    + void CountinuousEvaluatePosition(int SleepTime)
     - void InitiateLogging()
     - void ConfigurateWarnings()
     - RiskLevel[][] RiskMatrixFromTxt(string path)
@@ -108,9 +109,9 @@ struct WorkingPosition
 class SimulationSystem
 {
     - AvalancheWarnSystem myWarnSystem
-    - Queue<WorkingPosition> Route
-    - ReadinTestRoute():Queue<WorkingPosition>
-    - PositionSimulation(Route Queue<WorkingPosition>)
+    - List<WorkingPosition> Route
+    - ReadinTestRoute():List<WorkingPosition>
+    - PositionSimulation()
     + Main()
 }
 
