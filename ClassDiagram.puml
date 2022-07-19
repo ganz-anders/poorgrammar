@@ -108,9 +108,9 @@ struct WorkingPosition
 class SimulationSystem
 {
     - AvalancheWarnSystem myWarnSystem
-    - Queue<WorkingPosition> Route
-    - ReadinTestRoute():Queue<WorkingPosition>
-    - PositionSimulation(Route Queue<WorkingPosition>)
+    - List<WorkingPosition> Route
+    - ReadinTestRoute():List<WorkingPosition>
+    - PositionSimulation(Route List<WorkingPosition>)
     + Main()
 }
 

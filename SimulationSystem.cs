@@ -13,14 +13,13 @@ struct WorkingPosition
 class SimulationSystem
 { 
     private static AvalancheWarnSystem? myWarnSystem;
-    private static Queue<WorkingPosition>? Route;
-    private static Queue<WorkingPosition> ReadinTestRoute(string filepath)
+    private static List<WorkingPosition>? Route;
+    private static List<WorkingPosition> ReadinTestRoute(string filepath)
     {
         string? buffer;
         string[] inputs;
         StreamReader sr = new StreamReader(filepath);
-        Queue<WorkingPosition> ReturnRoute = new Queue<WorkingPosition>();
-        WorkingPosition wPos;
+        List<WorkingPosition> ReturnRoute = new List<WorkingPosition>();
 
         while (true)
         {
@@ -28,8 +27,7 @@ class SimulationSystem
             if (buffer!=null)
             {
                 inputs=buffer.Split();
-                wPos=new WorkingPosition(Convert.ToInt32(inputs[0]), Convert.ToInt32(inputs[1]), Convert.ToInt32(inputs[2]));
-                ReturnRoute.Append(wPos);
+                ReturnRoute.Add(new WorkingPosition(Convert.ToInt32(inputs[0]), Convert.ToInt32(inputs[1]), Convert.ToInt32(inputs[2])));
             } else
             {
                 break;
@@ -62,7 +60,6 @@ class SimulationSystem
     {
         const string Routefilepath="data/TestRoute.txt";
         Route = ReadinTestRoute(Routefilepath);
-        Console.WriteLine(Route.Count);
         myWarnSystem = new AvalancheWarnSystem();
 
         //start execution of Threads
