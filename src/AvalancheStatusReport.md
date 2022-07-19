@@ -1,3 +1,6 @@
+
+# Doku for the AvalanceStatusReport class
+
 struct AvalancheLevel_Height
 {
     public int UpperLimit;
