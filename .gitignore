@@ -1,11 +1,2 @@
- 12-logging-and-warnings
 bin
 obj
-
-.vscode
-bin
-obj
-
- main
-poorgrammar.csproj
-Program.cs
