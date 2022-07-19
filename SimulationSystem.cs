@@ -60,7 +60,41 @@ class SimulationSystem
     {
         const string Routefilepath="data/TestRoute.txt";
         Route = ReadinTestRoute(Routefilepath);
-        myWarnSystem = new AvalancheWarnSystem();
+
+        Console.WriteLine("Wollen Sie zu Test- und Demonstrations-Zwecken den Standard-LLB verwenden? [y/n]");
+        string? input=Console.ReadLine();
+        bool isinput=false;
+        do
+        {
+            switch (input)
+            {
+                case "y":
+                    isinput=true;
+                    myWarnSystem = new AvalancheWarnSystem("test");
+                    break;
+                case "n":
+                    isinput=true;
+                    //further down Standard-constructor will be called
+                    break;
+                case "Y":
+                    isinput=true;
+                    myWarnSystem = new AvalancheWarnSystem("test");
+                    break;
+                case "N":
+                    isinput=true;
+                    //further down Standard-constructor will be called
+                    break;
+                default:
+                    Console.WriteLine("Eingabe nicht erkannt.\nWollen Sie zu Testzwecken den Standard-LLB verwenden? [y/n]");
+                    input=Console.ReadLine();
+                    break;
+            }   
+        } while (!isinput);
+
+        if (myWarnSystem==null)
+        {
+            myWarnSystem = new AvalancheWarnSystem();
+        }
 
         //start execution of Threads
         Thread PositionSimul = new Thread(SimulationSystem.PositionSimulation);

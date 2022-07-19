@@ -38,7 +38,7 @@ class AvalancheStatusReport
             }
             sw.WriteLine(string.Join(',',output));
         }
-
+        Console.WriteLine("_____");
     }
 
     public void printReport()
@@ -67,6 +67,7 @@ class AvalancheStatusReport
             }
             Console.WriteLine(string.Join(',',output));
         }
+        Console.WriteLine("_____");
     }
 
     public AvalancheLevel getAvalancheLevel_Height(int height)
@@ -89,6 +90,7 @@ class AvalancheStatusReport
 
     public AvalancheStatusReport()
     {
+        const int totalUpperLimit=9000; //9000 is the ultimate upperLimit, bc. no mountain is higher
         bool subdiv=false;
         bool isinput=false;
         string? input;
@@ -240,7 +242,7 @@ class AvalancheStatusReport
                     break;
             }
         }
-        AvalancheLevel_ac2Height.Add(new AvalancheLevel_Height(9000,(AvalancheLevel)AVLevel)); //add the last AVLevel, 9000 is the ultimate upperLimit, bc. no mountain is higher
+        AvalancheLevel_ac2Height.Add(new AvalancheLevel_Height(totalUpperLimit,(AvalancheLevel)AVLevel)); //add the last AVLevel
 
 
         //read in SnowProblems
@@ -282,5 +284,38 @@ class AvalancheStatusReport
             
             SnowProblem_Direction.Add((Direction)i,SPList);
         }
+
+        Console.Clear();
+        printReport();
+    }
+
+    public AvalancheStatusReport(object test) //Importing an examplary AvalancheStatusreport (the one given in Wiki under "Entwurf")
+    {
+        const int subdivision_upperLimit=1800;
+        const AvalancheLevel ALunderSubdiv = AvalancheLevel.mäßig;
+        const int totalUpperLimit=9000;
+        const AvalancheLevel ALoverSubdiv=AvalancheLevel.erheblich;
+        const SnowProblem MainSnowProblem = SnowProblem.Triebschnee;
+        const SnowProblem OtherSnowProblem = SnowProblem.Gleitschnee;
+
+        SnowProblem_Direction=new Dictionary<Direction, List<SnowProblem>>();
+        AvalancheLevel_ac2Height=new List<AvalancheLevel_Height>();
+
+        AvalancheLevel_ac2Height.Add(new AvalancheLevel_Height(subdivision_upperLimit,ALunderSubdiv));
+        AvalancheLevel_ac2Height.Add(new AvalancheLevel_Height(totalUpperLimit,ALoverSubdiv)); 
+
+        for (int i = 0; i < 8; i++)     //Snowproblems for every Exposition
+        {
+            List<SnowProblem> SPList = new List<SnowProblem>();
+            SPList.Add(MainSnowProblem);
+            if (2<=i&&i<=6)             //from East to West
+            {
+                SPList.Add(OtherSnowProblem);
+            }
+            SnowProblem_Direction.Add((Direction)i,SPList);
+        }
+
+        Console.Clear();
+        printReport();
     }
 }

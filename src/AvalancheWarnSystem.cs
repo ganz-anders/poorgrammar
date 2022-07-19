@@ -329,6 +329,13 @@ class AvalancheWarnSystem
         myAVSReport=new AvalancheStatusReport();
         thisMap=new Map();
         ConfigurateWarnings();
-        //RiskMatrix=RiskMatrixFromTxt(RiskMatrixPath);
+    }
+    public AvalancheWarnSystem(object test)
+    {
+        const string RiskMatrixPath="data/RiskMatrix.txt";
+        RiskMatrix=RiskMatrixFromTxt(RiskMatrixPath);
+        myAVSReport=new AvalancheStatusReport(test);
+        thisMap=new Map();
+        ConfigurateWarnings();
     }
 }
