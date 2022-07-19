@@ -1,11 +1,13 @@
 class Logging
 {
-    private static StreamWriter? sw;
+    private static string? Filepath;
     public static void LogPosition(object? caller, PositionChangedEventArgs args)
     {
-        if(sw!=null)
+        if(Filepath!=null)
         {
+            StreamWriter sw = new StreamWriter(Filepath);
             sw.WriteLine($"__________\nPosition {args.Time} : {args.Position}\n__________");
+            sw.Close();
         } else 
         {
             Console.WriteLine("Error! Logging not possible.");
@@ -13,8 +15,9 @@ class Logging
     }
     public static void LogWarning(object? caller,RiskEventArgs args)
     {
-        if(sw!=null)
+        if(Filepath!=null)
         {
+            StreamWriter sw = new StreamWriter(Filepath);
             sw.WriteLine($"----------\nLawinengefahr.{args.Time}");
             sw.WriteLine($"Risiko für einen Lawinenabgang: {Enum.GetName(args.RiskLevel)}");
             sw.WriteLine($"Besonders folgende Schneeprobleme: ");
@@ -23,6 +26,7 @@ class Logging
                 sw.WriteLine($"   - {Enum.GetName(item)}");
             }
             sw.WriteLine("----------");
+            sw.Close();
         } else 
         {
             Console.WriteLine("Error! Logging not possible.");
@@ -31,6 +35,6 @@ class Logging
 
     public Logging(string filepath)
     {
-        sw = new StreamWriter(filepath); 
+        Filepath=filepath; 
     }
 }
