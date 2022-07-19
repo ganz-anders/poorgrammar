@@ -82,7 +82,7 @@ class AvalancheStatusReport
         throw new Exception("Error! AvalanchLevel_acording2Height seams to be damaged. altitude not found.");
     }
 
-    public List<SnowProblem> getSnowProblem_Dircetion(Direction direction)
+    public List<SnowProblem> getSnowProblem_Direction(Direction direction)
     {
         return SnowProblem_Direction[direction];
     }
@@ -97,7 +97,7 @@ class AvalancheStatusReport
         SnowProblem_Direction=new Dictionary<Direction, List<SnowProblem>>();
         AvalancheLevel_ac2Height=new List<AvalancheLevel_Height>();
 
-        Console.WriteLine($"Bitte geben Sie den Lawinen-Lage-Bericht für heute den {DateTime.Today} ein");
+        Console.WriteLine($"Bitte geben Sie den Lawinen-Lage-Bericht für heute den {DateTime.Now} ein");
         Console.WriteLine("...");
 
         //read in the Avalanche Levels dependet on height

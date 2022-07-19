@@ -43,14 +43,12 @@ class AvalancheStatusReport
 
 class Map
 {
-6-map
     - Position NWReference;
     - Position SEReference;
     - double[][] MapData
     - Position NWReference;
     - Position SEREference;
-    - string UTMZoneReference;
- main
+    - string UTMZoneReference
     + int getGradient(position Position)
     + Direction getDirection(position Position)
     + int getHeightAboveSL(Position Position)
@@ -79,6 +77,7 @@ class PositionChangedEventArgs
 
 class RiskEventArgs
 {
+    + Position Position
     + DateTime Time
     + RiskLevel RiskLevel
     + SnowProblem SnowProblem
@@ -93,7 +92,8 @@ class AvalancheWarnSystem
     + Map thisMap
     + AvalancheStatusReport myAVSReport
     + RiskLevel[][] RiskMatrix
-    + Position CurrentPosition <<get>>,  <<set>>
+    - Position CurrentPosition 
+    + void manipulatePosition(Position position)
     + void EvaluatePosition()
     - void InitiateLogging()
     - void ConfigurateWarnings()
