@@ -1,30 +1,21 @@
 # Poorgrammer
-Prüfungsleistung für das Modul Softwareentwicklung von Bjarne Jacobsen und Lena Zimmermann (Team "Poorgrammer").
+Prüfungsleistung von Bjarne Jacobsen und Lena Zimmermann (Team "Poorgrammer") für das Modul Softwareentwicklung im Sommersemester '22 an der TU Bergakademie Freiberg.
 
-## Thema
+#### Die (selbstgewählte) Aufgabenstellung:
 Es soll ein Warnsystem erstellt werden, um Skitourengeher zu warnen bzw. an ihre Situation zu erinnern, wenn sie sich in eine Gefahrensituation begeben.
+Die grobe Idee zur Umsetzung ist im Wiki unter "Entwurf" zu finden. Ebenfalls im Wiki finden Sie die Dokumentation. 
 
-## Grob-Entwurf
-Es soll selbständig eine Auswahl aus definierten Warnarten getroffen werden. Bsp. eine einfache Nachricht oder eine Nachricht mit Ton. Zusätzlich soll die Möglichkeit bestehen eine Datei mit Log-Daten der Warnungen anzulegen.
 
-Die Position des Systems soll in festen Abständen hinsichtlich den geografischen Gegebenheiten, vorallem Höhe und Hangneigung  ausgewertet werden. Die Bewertung erfolgt anhand einer Gefährdungsmatrix. Befindet sich das System an einer Position mit erhöhtem Gefährdungspotential aufgrund des aktuellen eingegebenen Lawinenlageberichts und der an den aktuellen Position vorherrschenden geografischen Gegebenheiten, sollen die gewählten Warnungen ausgelöst werden.
+## Die Motivation
+Als Skitourengeher sind Sie oft einer großen Gefahr ausgesetzt. Unser System soll Ihnen helfen sicherer zu bleiben und beruhigt Skitouren gehen zu können. Das System wertet Ihre Position aus und warnt Sie, wenn Sie Acht geben sollten. Sie können eine Warnung ihrer Wahl erhalten, falls Sie sich in Gefahr befinden. Optional können Sie sämtliche Warnungen und Positionsveränderungen in eine Logdatei schreiben. Am Ende des Tages können Sie dort ihre am Tag zurückgelegte Route anschauen und den aktuellen Lawinenlagebericht sehen.
 
-Die Abhängigkeiten dabei ergeben sich wiefolgt:
-Die Lawinenlagestufe hängt primär von der Höhe ab. Die Gefährdung hängt von Lawinenlagestufe und Hangneigung ab, da ein Lawinenabgang bei stärker geneigten Hängen (v.a. >35°) wahrscheinlicher wird.
-Die Hauptgefahr, also die Schneelage vor der gewarnt wird (z.B. Triebschnee), hängt von der Exposition (Himmelsrichtung) ab und soll ebenfalls ausgegeben werden.
+## Das System
+Die Position des Systems wird in festen Abständen hinsichtlich den geografischen Gegebenheiten, vorallem Höhe und Hangneigung ausgewertet. Die Bewertung des Risikos erfolgt anhand einer Gefährdungsmatrix. Befinden Sie und das System sich an einer Position mit erhöhtem Gefährdungspotential aufgrund des aktuellen eingegebenen Lawinenlageberichts und der an den aktuellen Position vorherrschenden geografischen Gegebenheiten, sollen die gewählten Warnungen ausgelöst werden.
 
-Die Position soll während der Auswertung auf Auswahl des Nutzers in eine Log-Datei geschrieben werden können, um die Route später nachverfolgen zu können, oder bsp. bei wenig Sicht den Weg zurück finden zu können.
+Die Abhängigkeiten dabei ergeben sich wie folgt: Die Lawinenlagestufe hängt primär von der Höhe ab. Die Gefährdung hängt von Lawinenlagestufe und Hangneigung ab, da ein Lawinenabgang bei stärker geneigten Hängen (v.a. >35°) wahrscheinlicher wird. Die Hauptgefahr, also die Schneelage vor der gewarnt wird (z.B. Triebschnee), hängt von der Exposition (Himmelsrichtung) ab wird ebenfalls einbezogen.
 
-Der Lawinenlagebericht soll ebenfalls ausgebbar auf der Konsole bzw. in die Log-Datei schreibbar sein.
+Zur Demonstration der Software läuft unser System zur Zeit in einer Simulation, die das Warn-System ausführt und die Bewegung des Sytems bzw. Änderung der Position entlang einer Testroute simuliert. Es ist ein Test-Lawinenlagebericht implementiert, aber Sie können selbstverständlich auch den tagesaktuellen LLB eingeben.
 
-Zusätzlich soll eine Simulation erstellt werden, die das Warn-System ausführt und die Bewegung des Sytems bzw. Änderung der Position simuliert. Dazu soll die Positionsauswertung des Warnsystems fortlaufend in einem Hintergrund-Thread ausgeführt werden, während ein Vordergrund-Thread die Position des Systems simuliert.
+### Ziel
+Die Nutzenden unserer Lawinenwarnung sollen beruhigt Skitouren gehen können. Sie können auf ihren Handys eine Warnung ihrer Wahl erhalten, falls sie sich in Gefahr befinden. Am Ende des Tages können sie zusätzlich ihre am Tag zurückgelegte Route anschauen und den aktuellen Lawinenlagebericht sehen. Optional können sie sich auch die Warnungen loggen und mit anschauen.
 
-Eine Benachrichtigungsklasse mit den verschiedenen Methoden zur Benachrichtigung soll erstellt werden, deren Methoden durch ein Event ausgelöst werden können.
-
-Es werden Höhenrasterdaten als Eingabe benötigt, über denen verschiedene Interpolationsmethoden ausgeführt werden können. So soll die Hangneigung (Gradient), die aktuelle Höhe und die Hangexposition berechnet werden können.
-
-Weitere Eingaben sollen den Lawinenlagebericht annehmen können, einschließlich aktueller Warnstufe in zugehöriger Höhenlage.
-
-![Beispielhafter Lawinenlagebericht](https://www.vol.at/2019/02/lawinenlagebericht.jpg)
-
-Dem Beispielhaften Lawinenlagebericht ist zu entnehmen, dass die Gefährdungsstufe am ausgewählten Ort oberhalb von 1,600m 3 beträgt und alle Himmelsrichtungen gefährdet sind. Unterhalb von 1600m beträgt die Stufe 2 und es sind besoders Ost-, Süd- und Westhänge gefährdet.
