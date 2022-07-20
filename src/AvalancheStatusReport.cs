@@ -24,6 +24,7 @@ class AvalancheStatusReport
         sw.WriteLine("Hauptschneeprobleme nach Himmelsrichtung:");
         List<string> output = new List<string>();
         int n;
+        string? myEnumName;
         for (int i = 0; i < 8; i++)
         {
             sw.Write($"{Enum.GetName(typeof(Direction), i)}: ");
@@ -31,9 +32,10 @@ class AvalancheStatusReport
             n=0;
             foreach (SnowProblem item in SnowProblem_Direction[(Direction)i])
             {
-                if (Enum.GetName(item)!=null)
+                myEnumName=Enum.GetName(item);
+                if (myEnumName!=null)
                 {
-                    output.Add(Enum.GetName(item));
+                    output.Add((string)myEnumName);
                 }
                 n++;
             }
@@ -54,6 +56,7 @@ class AvalancheStatusReport
         Console.WriteLine("Hauptschneeprobleme nach Himmelsrichtung:");
         List<string> output = new List<string>();
         int n;
+        string? myEnumName;
         for (int i = 0; i < 8; i++)
         {
             Console.Write($"{Enum.GetName(typeof(Direction), i)}: ");
@@ -61,9 +64,10 @@ class AvalancheStatusReport
             n=0;
             foreach (SnowProblem item in SnowProblem_Direction[(Direction)i])
             {
-                if (Enum.GetName(item)!=null)
+                myEnumName=Enum.GetName(item);
+                if (myEnumName!=null)
                 {
-                    output.Add(Enum.GetName(item));
+                    output.Add((string)myEnumName);
                 }
                 n++;
             }
