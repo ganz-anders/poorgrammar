@@ -55,7 +55,7 @@ class AvalancheWarnSystem
                {
                     if (myExposition!=null)
                         {
-                            OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction((Direction)myExposition)));   
+                            OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction((Direction)myExposition)));
                         }else
                         {
                             OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, new List<SnowProblem>()));
@@ -204,13 +204,13 @@ class AvalancheWarnSystem
                             break;
                         case "3":
                             isinput=true;
-                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
                             OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
                             break;
                         case "4":
                             isinput=true;
-                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.MessagewithFlashingLight);
                             OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.MessagewithFlashingLight);
                             break;
                         case "0":
                             throw new Exception();
@@ -240,13 +240,13 @@ class AvalancheWarnSystem
                             break;
                         case "3":
                             isinput=true;
-                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
                             OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
                             break;
                         case "4":
                             isinput=true;
-                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.MessagewithFlashingLight);
                             OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.MessagewithFlashingLight);
                             break;
                         case "0":
                             throw new Exception();
