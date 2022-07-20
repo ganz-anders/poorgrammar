@@ -67,8 +67,10 @@ class Warnings
 
 class Logging
 {
+    - static string? Filepath;
     + void LogPosition(object,PositionChangedEventArgs)
     + void LogWarning(object,RiskEventArgs)
+    + Logging(string filepath)
 }
 
 class PositionChangedEventArgs
