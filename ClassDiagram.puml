@@ -77,6 +77,7 @@ class PositionChangedEventArgs
 {
     + Position Position
     + DateTime Time
+    + PositionChangedEventArgs(Position position, DateTime time)
 }
 
 class RiskEventArgs
@@ -85,6 +86,7 @@ class RiskEventArgs
     + DateTime Time
     + RiskLevel RiskLevel
     + SnowProblem SnowProblem
+    + RiskEventArgs(Position position, DateTime time, RiskLevel riskLevel, List<SnowProblem> snowProblems
 }
 
 class AvalancheWarnSystem
@@ -109,8 +111,9 @@ class AvalancheWarnSystem
 
 struct WorkingPosition
 {
-    Time:int
-    Postion:Position    
+    + Time:int
+    + Postion:Position
+    + WorkingPosition(int time, int x, int y)    
 }
 class SimulationSystem
 {
