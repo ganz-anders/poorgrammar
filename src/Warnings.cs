@@ -16,10 +16,6 @@ class Warnings
     public static void Sound(object? caller,RiskEventArgs args)
     {
         Console.Beep();
-        Thread.Sleep(10);
-        Console.Beep();
-        Thread.Sleep(10);
-        Console.Beep();
     }
     // not needed anymore (Event could be linked with the both seperate delegates)
     /*public static void MessagewithSound(object? caller,RiskEventArgs args)
