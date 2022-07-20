@@ -261,7 +261,7 @@ class AvalancheWarnSystem
             catch (System.Exception)
             {
                 selfConfig=false;       //if self config failed standards should be loaded without another questioning
-                Console.Write("Error. ");
+                Console.Write("Abbruch. ");
             }
         }
 
