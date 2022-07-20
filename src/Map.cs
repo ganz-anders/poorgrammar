@@ -57,34 +57,34 @@ class Map
         yGrad=(((P21-P11)/Grid)+((P22-P12)/Grid))/2;
         xGrad=(((P12-P11)/Grid)+((P22-P21)/Grid))/2;
 
-        switch (yGrad)
+        switch (xGrad)
         {
-            case >0.1f: //West-Exposition
-                switch (xGrad)
+            case >0.5f: //West-Exposition
+                switch (yGrad)
                 {
-                    case <0.1f: //North-Exp
+                    case >0.5f: //North-Exp
                         return Direction.NW;
-                    case >0.1f:
+                    case <-0.5f:
                         return Direction.SW;
                     default:
                         return Direction.W;
                 }
-            case <0.1f: //East
-                switch (xGrad)
+            case <-0.5f: //East
+                switch (yGrad)
                 {
-                    case <0.1f: //North-Exp
+                    case >0.5f: //North-Exp
                         return Direction.NO;
-                    case >0.1f: //South-Exp
+                    case <-0.5f: //South-Exp
                         return Direction.SO;
                     default:
                         return Direction.O;
                 }
             default:    
-                switch (xGrad)
+                switch (yGrad)
                 {
-                    case <0.1f: //North-Exp
+                    case >0.5f: //North-Exp
                         return Direction.N;
-                    case >0.1f: //South-Exp
+                    case <-0.5f: //South-Exp
                         return Direction.S;
                     default:
                         return null;

@@ -49,12 +49,13 @@ class AvalancheWarnSystem
         {
             case RiskLevel.niedrig:
                 //everything is fine
+                break;
             case RiskLevel.mittel:
                if (OnRiskmid!=null)
                {
                     if (myExposition!=null)
                         {
-                            OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction((Direction)myExposition)));   
+                            OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction((Direction)myExposition)));
                         }else
                         {
                             OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, new List<SnowProblem>()));
@@ -99,6 +100,7 @@ class AvalancheWarnSystem
         }
         while (true)
         {
+            Console.Write(".");
             EvaluatePosition();
             Thread.Sleep(SleepTime);
         }
@@ -108,6 +110,8 @@ class AvalancheWarnSystem
         const string Logfilepath="data/LogDatei.txt";
         myLogging = new Logging(Logfilepath);
         
+        myAVSReport.printReport(Logfilepath);
+
         OnPositionChanged+= new EventHandler<PositionChangedEventArgs>(Logging.LogPosition);
         OnRiskmid+= new EventHandler<RiskEventArgs>(Logging.LogWarning);
         OnRiskhigh+= new EventHandler<RiskEventArgs>(Logging.LogWarning);
@@ -200,13 +204,13 @@ class AvalancheWarnSystem
                             break;
                         case "3":
                             isinput=true;
-                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
                             OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
                             break;
                         case "4":
                             isinput=true;
-                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.MessagewithFlashingLight);
                             OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.MessagewithFlashingLight);
                             break;
                         case "0":
                             throw new Exception();
@@ -236,13 +240,13 @@ class AvalancheWarnSystem
                             break;
                         case "3":
                             isinput=true;
-                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
                             OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
                             break;
                         case "4":
                             isinput=true;
-                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.MessagewithFlashingLight);
                             OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.Sound);
+                            OnRiskhigh+= new EventHandler<RiskEventArgs>(Warnings.MessagewithFlashingLight);
                             break;
                         case "0":
                             throw new Exception();
@@ -257,7 +261,7 @@ class AvalancheWarnSystem
             catch (System.Exception)
             {
                 selfConfig=false;       //if self config failed standards should be loaded without another questioning
-                Console.Write("Error. ");
+                Console.Write("Abbruch. ");
             }
         }
 

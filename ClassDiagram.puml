@@ -35,7 +35,8 @@ class AvalancheStatusReport
 {
     - List<AvalancheLevel_Height> AvalancheLevel_ac2Height
     - Dictionary<Direction, List<SnowProblem>> SnowProblem_Direction
-    + void printReport(sr StreamWriter)
+    + void printReport(string filepath)
+    + void printReport()
     + AvalancheLevel getAvalancheLevel_Height(height int)
     + SnowProblem getSnowProblem_Dircetion(direction Direction)
     + AvalancheStatusReport()
@@ -44,15 +45,16 @@ class AvalancheStatusReport
 
 class Map
 {
-    - Position NWReference;
-    - Position SEReference;
+    - Position NWReference
+    - Position SEReference
     - double[][] MapData
-    - Position NWReference;
-    - Position SEREference;
+    - Position NWReference
+    - Position SEReference
     - string UTMZoneReference
-    + int getGradient(position Position)
-    + Direction getDirection(position Position)
-    + int getHeightAboveSL(Position Position)
+    + bool PositionOnMap(Position position)
+    + int getGradient(Position position)
+    + Direction getDirection(Position position)
+    + int getHeightAboveSL(Position position)
     + Map()
 }
 
@@ -65,14 +67,17 @@ class Warnings
 
 class Logging
 {
+    - static string? Filepath;
     + void LogPosition(object,PositionChangedEventArgs)
     + void LogWarning(object,RiskEventArgs)
+    + Logging(string filepath)
 }
 
 class PositionChangedEventArgs
 {
     + Position Position
     + DateTime Time
+    + PositionChangedEventArgs(Position position, DateTime time)
 }
 
 class RiskEventArgs
@@ -81,6 +86,7 @@ class RiskEventArgs
     + DateTime Time
     + RiskLevel RiskLevel
     + SnowProblem SnowProblem
+    + RiskEventArgs(Position position, DateTime time, RiskLevel riskLevel, List<SnowProblem> snowProblems
 }
 
 class AvalancheWarnSystem
@@ -105,8 +111,9 @@ class AvalancheWarnSystem
 
 struct WorkingPosition
 {
-    Time:int
-    Postion:Position    
+    + Time:int
+    + Postion:Position
+    + WorkingPosition(int time, int x, int y)    
 }
 class SimulationSystem
 {

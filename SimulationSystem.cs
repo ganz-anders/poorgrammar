@@ -1,15 +1,3 @@
-struct WorkingPosition
-{
-    public int time;  // the time in ms, that the system rests at this position
-    public Position Position;
-
-    public WorkingPosition(int time, int x, int y)
-    {
-        this.time=time;
-        Position=new Position(x, y);
-    }
-}
-
 class SimulationSystem
 { 
     private static AvalancheWarnSystem? myWarnSystem;
@@ -102,6 +90,10 @@ class SimulationSystem
         PositionEvaluation.IsBackground=true;
 
         PositionSimul.Start();
-        PositionEvaluation.Start(500);
+        PositionEvaluation.Start(3000);
+        Console.WriteLine("System is running.");
+
+        PositionSimul.Join();
+        Console.BackgroundColor=ConsoleColor.Black;
     }
 }
