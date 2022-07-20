@@ -59,22 +59,22 @@ class Map
 
         switch (xGrad)
         {
-            case >0.1f: //West-Exposition
+            case >0.5f: //West-Exposition
                 switch (yGrad)
                 {
-                    case >0.1f: //North-Exp
+                    case >0.5f: //North-Exp
                         return Direction.NW;
-                    case <-0.1f:
+                    case <-0.5f:
                         return Direction.SW;
                     default:
                         return Direction.W;
                 }
-            case <-0.1f: //East
+            case <-0.5f: //East
                 switch (yGrad)
                 {
-                    case >0.1f: //North-Exp
+                    case >0.5f: //North-Exp
                         return Direction.NO;
-                    case <-0.1f: //South-Exp
+                    case <-0.5f: //South-Exp
                         return Direction.SO;
                     default:
                         return Direction.O;
@@ -82,9 +82,9 @@ class Map
             default:    
                 switch (yGrad)
                 {
-                    case >0.1f: //North-Exp
+                    case >0.5f: //North-Exp
                         return Direction.N;
-                    case <-0.1f: //South-Exp
+                    case <-0.5f: //South-Exp
                         return Direction.S;
                     default:
                         return null;
