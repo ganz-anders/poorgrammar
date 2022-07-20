@@ -42,7 +42,10 @@ class AvalancheStatusReport
             sw.WriteLine(string.Join(',',output));
         }
         Console.WriteLine("_____");
+ 32-building-the-system-and-testing
         sw.Close();
+
+main
     }
 
     public void printReport()
