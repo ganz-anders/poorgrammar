@@ -22,10 +22,10 @@ class Map
         double xGrad, yGrad, Grad;              
         double x=(position.longitude-NWReference.longitude)/Grid;               //the value of the position relativ to the NWReference point ->MapData entry nr.
         double y=(position.latitude-NWReference.latitude)/Grid;
-        double P11=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)];       //four auxilary points (the next point on the grid in each direction)
-        double P12=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
-        double P22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
-        double P21=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)+1];
+        double P11=MapData[(int)Math.Truncate(y)][(int)Math.Truncate(x)];       //four auxilary points (the next point on the grid in each direction)
+        double P12=MapData[(int)Math.Truncate(y)][(int)Math.Truncate(x)+1];
+        double P22=MapData[(int)Math.Truncate(y)+1][(int)Math.Truncate(x)+1];
+        double P21=MapData[(int)Math.Truncate(y)+1][(int)Math.Truncate(x)];
 
         yGrad=(((P21-P11)/Grid)+((P22-P12)/Grid))/2;
         xGrad=(((P12-P11)/Grid)+((P22-P21)/Grid))/2;
@@ -51,11 +51,10 @@ class Map
         double xGrad, yGrad;
         double x=(position.longitude-NWReference.longitude)/Grid;                   //the value of the position relativ to the NWReference point ->MapData entry nr.
         double y=(position.latitude-NWReference.latitude)/Grid;
-        double P11=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)];           //four auxilary points (the next point on the grid in each direction)
-        double P12=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
-        double P22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
-        double P21=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)+1];
-
+        double P11=MapData[(int)Math.Truncate(y)][(int)Math.Truncate(x)];           //four auxilary points (the next point on the grid in each direction)
+        double P12=MapData[(int)Math.Truncate(y)][(int)Math.Truncate(x)+1];
+        double P22=MapData[(int)Math.Truncate(y)+1][(int)Math.Truncate(x)+1];
+        double P21=MapData[(int)Math.Truncate(y)+1][(int)Math.Truncate(x)];
         yGrad=(((P21-P11)/Grid)+((P22-P12)/Grid))/2;
         xGrad=(((P12-P11)/Grid)+((P22-P21)/Grid))/2;
 
@@ -103,10 +102,10 @@ class Map
         double R1,R2,P;
         double x=(position.longitude-NWReference.longitude)/Grid;               //the value of the position relativ to the NWReference point ->MapData entry nr.
         double y=(position.latitude-NWReference.latitude)/Grid;
-        double Q11=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)+1];     //four auxilary points (the next point on the grid in each direction)
-        double Q12=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)];
-        double Q22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
-        double Q21=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
+        double Q11=MapData[(int)Math.Truncate(y)+1][(int)Math.Truncate(x)];     //four auxilary points (the next point on the grid in each direction)
+        double Q12=MapData[(int)Math.Truncate(y)][(int)Math.Truncate(x)];
+        double Q22=MapData[(int)Math.Truncate(y)][(int)Math.Truncate(x)+1];
+        double Q21=MapData[(int)Math.Truncate(y)+1][(int)Math.Truncate(x)+1];
         
         //R1=Q11+((Q21-Q11)/Grid)*(x-Math.Truncate(x));
         //R2=Q12+((Q22-Q12)/Grid)*(x-Math.Truncate(x));
@@ -150,7 +149,7 @@ class Map
             buffer=sr.ReadLine();           //reading the Reference point
             if (buffer!=null)
             {
-                inputs=buffer.Split(' ');
+                inputs=buffer.Split(' ');                           //read in reference point
                 UTMZoneReference=inputs[1];
                 NWReference.longitude=Convert.ToInt32(inputs[2]);
                 NWReference.latitude=Convert.ToInt32(inputs[3]);
@@ -161,7 +160,7 @@ class Map
             buffer=sr.ReadLine();               //reading the map size
             if (buffer!=null)
             {
-                inputs=buffer.Split(',');
+                inputs=buffer.Split(',');                           //read in mapsize (for Array size)
                 xsize=Convert.ToInt32(inputs[0]);
                 ysize=Convert.ToInt32(inputs[1]);
                 if (!(xsize>0&&ysize>0))
@@ -195,7 +194,7 @@ class Map
                 }
             }
 
-            SEReference.longitude=NWReference.longitude+(int)Grid*xsize;        //calculatiing the second Reference point
+            SEReference.longitude=NWReference.longitude+(int)Grid*xsize;        //fill the SE reference point for easy calculation of PositionOnMap
             SEReference.latitude=NWReference.latitude+(int)Grid*ysize;
         }
         catch (System.Exception)
