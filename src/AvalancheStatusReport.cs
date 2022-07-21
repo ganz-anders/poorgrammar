@@ -1,13 +1,3 @@
-struct AvalancheLevel_Height
-{
-    public int UpperLimit;
-    public AvalancheLevel AvalancheLevel;
-    public AvalancheLevel_Height(int uLimit, AvalancheLevel avalancheLevel)
-    {
-        UpperLimit=uLimit;
-        AvalancheLevel=avalancheLevel;
-    }
-}
 class AvalancheStatusReport
 {
     private List<AvalancheLevel_Height> AvalancheLevel_ac2Height;
