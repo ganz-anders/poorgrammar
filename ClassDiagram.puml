@@ -23,6 +23,8 @@ struct Position
 {
     + int longitude <<get>>, <<set>>
     + int latitude <<get>>, <<set>>
+    + override string ToString()
+    + Position(int x, int y)
 }
 
 struct AvalancheLevel_Height
