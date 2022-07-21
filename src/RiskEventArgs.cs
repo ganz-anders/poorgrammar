@@ -1,3 +1,5 @@
+/*class for the arguments handed over to the warning methods when the event is triggerd
+contains the most important information about the current situation*/
 class RiskEventArgs:EventArgs
 {
     public Position Position;

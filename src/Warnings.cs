@@ -1,6 +1,6 @@
 class Warnings
 {
-    public static void PushMessage(object? caller,RiskEventArgs args)
+    public static void PushMessage(object? caller,RiskEventArgs args)   //push message warning - prints the most important information to Console
     {
         Console.WriteLine("\n_____");
         Console.WriteLine($"Achtung. Lawinengefahr. {args.Time}");
@@ -13,7 +13,7 @@ class Warnings
         }
         Console.WriteLine("_____");
     }
-    public static void Sound(object? caller,RiskEventArgs args)
+    public static void Sound(object? caller,RiskEventArgs args)     //sound warning (does only make sound)
     {
         Console.Beep();
     }
@@ -23,10 +23,10 @@ class Warnings
         Sound(caller,args);
         PushMessage(caller,args);
     }*/
-    public static void MessagewithFlashingLight(object? caller,RiskEventArgs args)
+    public static void MessagewithFlashingLight(object? caller,RiskEventArgs args)      //Push-message, but with flashing lights before
     {
         //Sound(caller, args);
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)         //changes the color of the console window
         {
             Console.BackgroundColor = ConsoleColor.Red;
             Console.Clear();
@@ -35,6 +35,6 @@ class Warnings
             Console.Clear();
             Thread.Sleep(50);
         }
-        PushMessage(caller, args);
+        PushMessage(caller, args);      //calls the Push Message method
     }
 }
