@@ -1,4 +1,4 @@
-# **Warnings Doku**
+# **`Warnings` Doku**
 Hier sind die verschiedenen Warnungen an die Skitourenden programiert.
 Es wird jeweils der Aufruf mit dem Event der Gefahr ausgelöst. 
 ## Methoden
