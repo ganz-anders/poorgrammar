@@ -1,200 +1,37 @@
-using System.Globalization;
-class Map
-{
-    private const float Grid=10.0f; //Map grid in m
-    private Position NWReference; //Reference point at the North-West End of the map
-    private Position SEReference; //Reference point at the South-East End of the map
-    private string UTMZoneReference;
-    private double[][] MapData; //like in a matrix the first value is the y value and the second is the x
-    public bool PositionOnMap(Position position)
-    {
-        return NWReference.longitude<position.longitude&&position.longitude<SEReference.longitude
-        &&NWReference.latitude<position.latitude&&position.latitude<SEReference.latitude;
-    }
-    public int getGradient(Position position)
-    {
-        if (!PositionOnMap(position))
-        {
-            throw new Exception("Out of the Map.");
-        }
-        double xGrad, yGrad, Grad;
-        double x=position.longitude;
-        double y=position.latitude;
-        double P11=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)];
-        double P12=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
-        double P22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
-        double P21=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)+1];
+# **`Map` Klasse Doku**
+## Konstruktor
+* `public Map()`
+liest die Karte aus dem direkt im Konstruktor gespeicherten Pfad `const string fileaddress="data/map.txt"` ein und füllt die Felder der Klasse. Mehr im Abschnitt "Zu-Grunde-liegende Karte"
+## Felder
+* `private const float Grid=250.0f;` //Gitter in m  
+* `private Position NWReference;` //Referenz Punkt am Nord-West Ende der Karte  
+* `private Position SEReference;` //Referenzpunkt gegenüber  
+* `private string UTMZoneReference;` //UTM Zonen Referenz, nicht benötigt im Weiteren  
+* `private double[][] MapData;` //Höhenrasterdaten
+## Methoden
+* `public bool PositionOnMap(Position position)` //gibt true zurück, wenn die übergebene Position sich auf der Karte befindet  
+* `public int getGradient(Position position)` //Berechnet den Gradienten an der Stelle der übergebenen Position auf Grundlage der Karte (`MapData`), prüft vorher `PositionOnMap`  
+* `public Direction? getDirection(Position position)` //Berechnet die Exposition/Himmelsrichtung an der übergebenen Position, prüft vorher `PositionOnMap`  
+* `public int getHeightAboveSL(Position position)` //Berechnet die Höhe über NN an der übergebenen Position auf Basis von bilinearer Interpolation, prüft vorher `PositionOnMap`  
 
-        yGrad=(((P21-P11)/Grid)+((P22-P12)/Grid))/2;
-        xGrad=(((P12-P11)/Grid)+((P22-P21)/Grid))/2;
+## Zu-Grunde-liegende Karte
+Die Karte wird durch den Konstruktor unter dem Pfad `data/map.txt` geladen. Sie stellt ein Array dar, was aus der Textdatei geladen wird. Die Textdatei muss daher einem strengen Aufbau folgen, um vom Programm akzeptiert zu werden:
 
-        yGrad=Math.Abs(yGrad);
-        xGrad=Math.Abs(xGrad);
+### Aufbau
+1. Nord-West-Referenz (nord-westlichster Punkt) der Karte, entspricht den Koordinaten des ersten Eintrages in der Liste der Höhenwerte: `Schlüsselwort North-West-Reference:` Leerzeichen `Kartenausschnitt` Leerzeichen `Längenwert(x)` Leerzeichen `Breitenwert(y)`  
+2. mit Komma getrennt die Dimensionen (Anzahl der Einträge) `xdim,ydim`    
+3. Spalten-(y) und Zeilenweise getrennt die `Höhenwerte(z)` durch Tabstopps `\t` getrennt (Zeilen=x-Richtung, ein y-Wert)  
 
-        Grad=Math.Sqrt(xGrad*xGrad+yGrad*yGrad);
-        Grad=Math.Truncate(Grad);
+#### Beispiel:  
+`North-West-Reference: 32T 649740 5253860`  
+`49,49`  
+`0.0333564014835872\t0.0632480721672403 ...`  
+`...`  
 
-        return((int)Grad);
-    }
-    public Direction? getDirection(Position position)
-    {
-        if (!PositionOnMap(position))
-        {
-            throw new Exception("Out of the Map.");
-        }
-        double xGrad, yGrad;
-        double x=position.longitude;
-        double y=position.latitude;
-        double P11=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)];
-        double P12=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
-        double P22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
-        double P21=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)+1];
+### Karten-Daten
+Die zur Zeit zu Grunde liegenden Daten sind künstlich erzeugt und entsprechen keinen realen Bergen.
+Es sind die die Beträge der Werte folgender, auch als Peaks-function bekannten Funktion:  
+z =  3*(1-x)^2*exp(-(x^2) - (y+1)^2) - 10*(x/5 - x^3 - y^5)*exp(-x^2-y^2) - 1/3*exp(-(x+1)^2 - y^2)
+![Softwareentwicklung_map](https://user-images.githubusercontent.com/102985804/179988180-dade45e4-84e5-4c11-8e81-e761cbe5bfa9.jpg)
 
-        yGrad=(((P21-P11)/Grid)+((P22-P12)/Grid))/2;
-        xGrad=(((P12-P11)/Grid)+((P22-P21)/Grid))/2;
 
-        switch (yGrad)
-        {
-            case >0.1f: //West-Exposition
-                switch (xGrad)
-                {
-                    case <0.1f: //North-Exp
-                        return Direction.NW;
-                    case >0.1f:
-                        return Direction.SW;
-                    default:
-                        return Direction.W;
-                }
-            case <0.1f: //East
-                switch (xGrad)
-                {
-                    case <0.1f: //North-Exp
-                        return Direction.NO;
-                    case >0.1f: //South-Exp
-                        return Direction.SO;
-                    default:
-                        return Direction.O;
-                }
-            default:    
-                switch (xGrad)
-                {
-                    case <0.1f: //North-Exp
-                        return Direction.N;
-                    case >0.1f: //South-Exp
-                        return Direction.S;
-                    default:
-                        return null;
-                }
-        }
-
-    }
-    public int getHeightAboveSL(Position position) //coded acording to http://supercomputingblog.com/graphics/coding-bilinear-interpolation/
-    {
-        if (!PositionOnMap(position))
-        {
-            throw new Exception("Out of the Map.");
-        }
-        double R1,R2,P;
-        double x=(position.longitude-NWReference.longitude)/Grid;
-        double y=(position.latitude-NWReference.latitude)/Grid;
-        double Q11=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)+1];
-        double Q12=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)];
-        double Q22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
-        double Q21=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
-        
-        R1=((Q21-Q11)/Grid)*(x-Math.Truncate(x));
-        R2=((Q22-Q12)/Grid)*(x-Math.Truncate(x));
-
-        //R1=(((Math.Truncate(x)+Grid-x)/Grid)*Q11+((x-Math.Truncate(x))/Grid)*Q21);
-        //R2=(((Math.Truncate(x)+Grid-x)/Grid)*Q12+((x-Math.Truncate(x))/Grid)*Q22);
-
-        P=((R2-R1)/Grid)*(y-Math.Truncate(y));
-        //P=((Math.Truncate(y)-y)/(Grid))*R1 + ((y-(Math.Truncate(y)+Grid))/(Grid))*R2;
-
-        P=Math.Truncate(P);
-
-        return (int)P;
-
-    }
-    public Map()
-    {
-        const string fileaddress="map.txt";
-        string? buffer;
-        string[] inputs;
-        int xsize=0, ysize=0;
-        StreamReader sr;
-
-        NumberFormatInfo provider = new NumberFormatInfo();
-        provider.NumberDecimalSeparator = ".";
-
-        Console.WriteLine("Karte einlesen...");
-        try
-        {
-            sr = new StreamReader(fileaddress);   
-        }
-        catch (System.Exception)
-        {
-            Console.WriteLine("Error. File not found. deleted or moved.");
-            throw;
-        }
-        
-        try
-        {
-            buffer=sr.ReadLine();
-            if (buffer!=null)
-            {
-                inputs=buffer.Split(' ');
-                UTMZoneReference=inputs[1];
-                NWReference.longitude=Convert.ToInt32(inputs[2]);
-                NWReference.latitude=Convert.ToInt32(inputs[3]);
-            }else
-            {
-                throw new Exception();
-            }
-            buffer=sr.ReadLine();
-            if (buffer!=null)
-            {
-                inputs=buffer.Split(',');
-                xsize=Convert.ToInt32(inputs[0]);
-                ysize=Convert.ToInt32(inputs[1]);
-                if (!(xsize>0&&ysize>0))
-                {
-                    Console.WriteLine("Map size not detected right");
-                    throw new Exception();
-                }
-            }else
-            {
-                throw new Exception();
-            }
-
-            MapData= new double[xsize][];
-            for (int i = 0; i < xsize; i++)
-            {
-                MapData[i]=new double[ysize];
-            }
-            for (int i = 0; i < ysize; i++)
-            {
-                buffer=sr.ReadLine();
-                if (buffer!=null)
-                {
-                    inputs=buffer.Split("\t");
-                    for (int j = 0; j < xsize; j++)
-                    {
-                        MapData[j][i]=Convert.ToDouble(inputs[j],provider);
-                    }
-                }else
-                {
-                    throw new Exception();
-                }
-            }
-
-            SEReference.longitude=NWReference.longitude+(int)Grid*xsize;
-            SEReference.latitude=NWReference.latitude+(int)Grid*ysize;
-        }
-        catch (System.Exception)
-        {
-            Console.WriteLine("Error while reading map.");
-            throw;
-        }
-    }
-}
