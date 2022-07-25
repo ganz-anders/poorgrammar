@@ -1,6 +1,6 @@
 class AvalancheWarnSystem
 {
-    public event EventHandler<PositionChangedEventArgs>? OnPositionChanged; //event, triggerd from manipulated position method
+    public event EventHandler<PositionChangedEventArgs>? OnPositionChanged; //event, triggerd from manipulateposition method
     public event EventHandler<RiskEventArgs>? OnRiskmid;    //event, triggerd from EvaluatePosition method, when risk is mid
     public event EventHandler<RiskEventArgs>? OnRiskhigh;   //event, triggerd from EvaluatePsoition method, when risk is high
     private Logging? myLogging;     //object of the Logging class - provides logging methods if not null
