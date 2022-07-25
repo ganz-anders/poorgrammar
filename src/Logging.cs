@@ -1,6 +1,6 @@
 class Logging
 {
-    private static string? Filepath;        //filepath to wich the logging is written to
+    private static string? Filepath;        //filepath to which the logging is written to
     public static void LogPosition(object? caller, PositionChangedEventArgs args)   //logs the overhanded position when invocated
     {
         if(Filepath!=null)
