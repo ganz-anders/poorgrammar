@@ -1,10 +1,6 @@
-struct Position
-{
-    public int longitude; //x (east-west)
-    public int latitude; //y (north-south)
-    public Position(int x, int y)
-    {
-        longitude=x;
-        latitude=y;
-    }
-}
+# **`Position` Doku**
+## Konstruktoren
+` public Position(int x, int y) ` ist ein Konstruktor, der es einfach macht die position zu verwenden, indem er die Variablen x und y umbenennt nach Länge (Ost-West) und Breite (Nord-Süd).
+
+## Methoden
+`public override string ToString()` wandelt die Position für die leichtere Consolenausgabe um in einen String.
