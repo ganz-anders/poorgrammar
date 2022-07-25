@@ -2,6 +2,7 @@ class Warnings
 {
     public static void PushMessage(object? caller,RiskEventArgs args)
     {
+        Console.WriteLine("\n_____");
         Console.WriteLine($"Achtung. Lawinengefahr. {args.Time}");
         Console.WriteLine($"Aktuelle Position: {args.Position}");
         Console.WriteLine($"Risiko für einen Lawinenabgang: {Enum.GetName(args.RiskLevel)}");
@@ -10,14 +11,10 @@ class Warnings
         {
             Console.WriteLine($"   - {Enum.GetName(item)}");
         }
-
+        Console.WriteLine("_____");
     }
     public static void Sound(object? caller,RiskEventArgs args)
     {
-        Console.Beep();
-        Thread.Sleep(10);
-        Console.Beep();
-        Thread.Sleep(10);
         Console.Beep();
     }
     // not needed anymore (Event could be linked with the both seperate delegates)

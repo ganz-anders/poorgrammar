@@ -1,7 +1,7 @@
 using System.Globalization;
 class Map
 {
-    private const float Grid=10.0f; //Map grid in m
+    private const float Grid=250.0f; //Map grid in m
     private Position NWReference; //Reference point at the North-West End of the map
     private Position SEReference; //Reference point at the South-East End of the map
     private string UTMZoneReference;
@@ -18,12 +18,12 @@ class Map
             throw new Exception("Out of the Map.");
         }
         double xGrad, yGrad, Grad;
-        double x=position.longitude;
-        double y=position.latitude;
-        double P11=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)];
-        double P12=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
-        double P22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
-        double P21=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)+1];
+        double x=(position.longitude-NWReference.longitude)/Grid;
+        double y=(position.latitude-NWReference.latitude)/Grid;
+        double P11=MapData[(int)Math.Truncate(y)][(int)Math.Truncate(x)];
+        double P12=MapData[(int)Math.Truncate(y)][(int)Math.Truncate(x)+1];
+        double P22=MapData[(int)Math.Truncate(y)+1][(int)Math.Truncate(x)+1];
+        double P21=MapData[(int)Math.Truncate(y)+1][(int)Math.Truncate(x)];
 
         yGrad=(((P21-P11)/Grid)+((P22-P12)/Grid))/2;
         xGrad=(((P12-P11)/Grid)+((P22-P21)/Grid))/2;
@@ -32,7 +32,11 @@ class Map
         xGrad=Math.Abs(xGrad);
 
         Grad=Math.Sqrt(xGrad*xGrad+yGrad*yGrad);
-        Grad=Math.Truncate(Grad);
+        
+        Grad=Math.Atan(Grad)*(180/Math.PI);
+
+        Grad=Math.Round(Grad);
+
 
         return((int)Grad);
     }
@@ -43,44 +47,43 @@ class Map
             throw new Exception("Out of the Map.");
         }
         double xGrad, yGrad;
-        double x=position.longitude;
-        double y=position.latitude;
-        double P11=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)];
-        double P12=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
-        double P22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
-        double P21=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)+1];
-
+        double x=(position.longitude-NWReference.longitude)/Grid;
+        double y=(position.latitude-NWReference.latitude)/Grid;
+        double P11=MapData[(int)Math.Truncate(y)][(int)Math.Truncate(x)];
+        double P12=MapData[(int)Math.Truncate(y)][(int)Math.Truncate(x)+1];
+        double P22=MapData[(int)Math.Truncate(y)+1][(int)Math.Truncate(x)+1];
+        double P21=MapData[(int)Math.Truncate(y)+1][(int)Math.Truncate(x)];
         yGrad=(((P21-P11)/Grid)+((P22-P12)/Grid))/2;
         xGrad=(((P12-P11)/Grid)+((P22-P21)/Grid))/2;
 
-        switch (yGrad)
+        switch (xGrad)
         {
-            case >0.1f: //West-Exposition
-                switch (xGrad)
+            case >0.5f: //West-Exposition
+                switch (yGrad)
                 {
-                    case <0.1f: //North-Exp
+                    case >0.5f: //North-Exp
                         return Direction.NW;
-                    case >0.1f:
+                    case <-0.5f:
                         return Direction.SW;
                     default:
                         return Direction.W;
                 }
-            case <0.1f: //East
-                switch (xGrad)
+            case <-0.5f: //East
+                switch (yGrad)
                 {
-                    case <0.1f: //North-Exp
+                    case >0.5f: //North-Exp
                         return Direction.NO;
-                    case >0.1f: //South-Exp
+                    case <-0.5f: //South-Exp
                         return Direction.SO;
                     default:
                         return Direction.O;
                 }
             default:    
-                switch (xGrad)
+                switch (yGrad)
                 {
-                    case <0.1f: //North-Exp
+                    case >0.5f: //North-Exp
                         return Direction.N;
-                    case >0.1f: //South-Exp
+                    case <-0.5f: //South-Exp
                         return Direction.S;
                     default:
                         return null;
@@ -97,28 +100,29 @@ class Map
         double R1,R2,P;
         double x=(position.longitude-NWReference.longitude)/Grid;
         double y=(position.latitude-NWReference.latitude)/Grid;
-        double Q11=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)+1];
-        double Q12=MapData[(int)Math.Truncate(x)][(int)Math.Truncate(y)];
-        double Q22=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)];
-        double Q21=MapData[(int)Math.Truncate(x)+1][(int)Math.Truncate(y)+1];
+        double Q11=MapData[(int)Math.Truncate(y)+1][(int)Math.Truncate(x)];
+        double Q12=MapData[(int)Math.Truncate(y)][(int)Math.Truncate(x)];
+        double Q22=MapData[(int)Math.Truncate(y)][(int)Math.Truncate(x)+1];
+        double Q21=MapData[(int)Math.Truncate(y)+1][(int)Math.Truncate(x)+1];
         
-        R1=((Q21-Q11)/Grid)*(x-Math.Truncate(x));
-        R2=((Q22-Q12)/Grid)*(x-Math.Truncate(x));
+        //R1=Q11+((Q21-Q11)/Grid)*(x-Math.Truncate(x));
+        //R2=Q12+((Q22-Q12)/Grid)*(x-Math.Truncate(x));
 
-        //R1=(((Math.Truncate(x)+Grid-x)/Grid)*Q11+((x-Math.Truncate(x))/Grid)*Q21);
-        //R2=(((Math.Truncate(x)+Grid-x)/Grid)*Q12+((x-Math.Truncate(x))/Grid)*Q22);
+        R1=(((Math.Truncate(x)+Grid-x)/Grid)*Q11+((x-Math.Truncate(x))/Grid)*Q21);
+        R2=(((Math.Truncate(x)+Grid-x)/Grid)*Q12+((x-Math.Truncate(x))/Grid)*Q22);
 
-        P=((R2-R1)/Grid)*(y-Math.Truncate(y));
-        //P=((Math.Truncate(y)-y)/(Grid))*R1 + ((y-(Math.Truncate(y)+Grid))/(Grid))*R2;
+        //P=R1+((R2-R1)/Grid)*(y-Math.Truncate(y));
 
-        P=Math.Truncate(P);
+        P=-(((Math.Truncate(y)-y)/(Grid))*R1 + ((y-(Math.Truncate(y)+Grid))/(Grid))*R2);
+
+        P=Math.Round(P);
 
         return (int)P;
 
     }
     public Map()
     {
-        const string fileaddress="map.txt";
+        const string fileaddress="data/map.txt";
         string? buffer;
         string[] inputs;
         int xsize=0, ysize=0;
@@ -143,7 +147,7 @@ class Map
             buffer=sr.ReadLine();
             if (buffer!=null)
             {
-                inputs=buffer.Split(' ');
+                inputs=buffer.Split(' ');                           //read in reference point
                 UTMZoneReference=inputs[1];
                 NWReference.longitude=Convert.ToInt32(inputs[2]);
                 NWReference.latitude=Convert.ToInt32(inputs[3]);
@@ -154,7 +158,7 @@ class Map
             buffer=sr.ReadLine();
             if (buffer!=null)
             {
-                inputs=buffer.Split(',');
+                inputs=buffer.Split(',');                           //read in mapsize (for Array size)
                 xsize=Convert.ToInt32(inputs[0]);
                 ysize=Convert.ToInt32(inputs[1]);
                 if (!(xsize>0&&ysize>0))
@@ -167,7 +171,7 @@ class Map
                 throw new Exception();
             }
 
-            MapData= new double[xsize][];
+            MapData= new double[xsize][];                   //fill the MapData Array
             for (int i = 0; i < xsize; i++)
             {
                 MapData[i]=new double[ysize];
@@ -188,7 +192,7 @@ class Map
                 }
             }
 
-            SEReference.longitude=NWReference.longitude+(int)Grid*xsize;
+            SEReference.longitude=NWReference.longitude+(int)Grid*xsize;        //fill the SE reference point for easy calculation of PositionOnMap
             SEReference.latitude=NWReference.latitude+(int)Grid*ysize;
         }
         catch (System.Exception)
