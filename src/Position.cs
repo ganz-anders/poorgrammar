@@ -4,7 +4,7 @@ struct Position
     public int latitude; //y (north-south)
     public override string ToString()   //To String Method for easy Console/StreamWriter Output
     {
-        return "N"+longitude.ToString()+" O"+latitude.ToString();
+        return "O"+longitude.ToString()+" N"+latitude.ToString();
     }
     public Position(int x, int y)   //Constructor for easy use of the struct
     {
