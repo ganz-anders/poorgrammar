@@ -1,12 +1,2 @@
-class PositionChangedEventArgs :EventArgs
-{
-    public Position Position;
-    public DateTime Time;
-
-    public PositionChangedEventArgs(Position position, DateTime time)
-    {
-        Position=position;
-        Time=time;
-    }
-
-}
+# **`PositionChangedEventArgs` Doku**
+Klasse, die durch ein übergebenes Event ausgelöst wird und die die wichtigsten Informationen Zeit und Position enthält. Diese Argumente werden, wird die Klasse ausgelöst, an die Logging Funktion weitergegeben.
