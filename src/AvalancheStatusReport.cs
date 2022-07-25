@@ -1,8 +1,8 @@
 class AvalancheStatusReport
 {
-    private List<AvalancheLevel_Height> AvalancheLevel_ac2Height;               //field for the Avalanche Level(s) in dependent of the height
-    private Dictionary<Direction, List<SnowProblem>> SnowProblem_Direction;     //field for the Snow Problems in dependent of the direction
-    public void printReport(string filepath)        //printing all information from the  AvalancheStatusReport to the a Stream of overhanded filepath
+    private List<AvalancheLevel_Height> AvalancheLevel_ac2Height;               //field for the Avalanche Level(s) in dependence of the height
+    private Dictionary<Direction, List<SnowProblem>> SnowProblem_Direction;     //field for the Snow Problems in dependence of the direction
+    public void printReport(string filepath)        //printing all information from the  AvalancheStatusReport to the a Stream of filepaths that have been handed over
     {
         StreamWriter sw = new StreamWriter(filepath, append:true);
         sw.WriteLine($"Lawinen-Lage-Bericht für heute den {DateTime.Today} \n...");
@@ -80,7 +80,7 @@ class AvalancheStatusReport
         throw new Exception("Error! AvalanchLevel_acording2Height seams to be damaged. altitude not found.");
     }
 
-    public List<SnowProblem> getSnowProblem_Direction(Direction direction)  //return the list of SnowProblems from the dictionary entry for the overhanded direction
+    public List<SnowProblem> getSnowProblem_Direction(Direction direction)  //returns the list of SnowProblems from the dictionary entry for the direction that has been handed over
     {
         return SnowProblem_Direction[direction];
     }
@@ -88,7 +88,7 @@ class AvalancheStatusReport
     public AvalancheStatusReport()          //Constructor loading the Avalanche Report from user inputs from the Command Line
     {
         const int totalUpperLimit=9000; //9000m is the upperLimit for the last, open to the top, Avalanche level, , bc. no mountain is higher
-        bool subdiv=false;              //is true, if there is a subdivision in more diferent Avalanche levels in dependence of the height
+        bool subdiv=false;              //is true, if there is a subdivision in several different Avalanche levels in dependence of the height
         bool isinput=false;             //is set true, if there was a *correct* user input
         string? input;                  //variable for the input
         int upperLimit;
@@ -99,7 +99,7 @@ class AvalancheStatusReport
         Console.WriteLine($"Bitte geben Sie den Lawinen-Lage-Bericht für heute den {DateTime.Now} ein");
         Console.WriteLine("...");
 
-        //read in the Avalanche Levels dependet on height
+        //read in the Avalanche Levels dependent on height
         Console.WriteLine("Gibt es eine Unterteilung des LLB in verschiedene Höhenstufen? [y/n]?"); //questioning subdivision
         input=Console.ReadLine();
         isinput=false;
@@ -130,7 +130,7 @@ class AvalancheStatusReport
             }   
         } while (!isinput);
 
-        //while there are one ore more subdivisions
+        //while there are one or more subdivisions
         while (subdiv)
         {
             //read in upper Limit
@@ -176,7 +176,7 @@ class AvalancheStatusReport
             //add AVLevel to List
             AvalancheLevel_ac2Height.Add(new AvalancheLevel_Height(upperLimit,(AvalancheLevel)AVLevel));
 
-            //questioning if there are more subdivs
+            //questioning if there are more subdivsions
             Console.WriteLine("Gibt es weitere Unterteilungen? [y/n]");
             isinput=false;
             input=Console.ReadLine();
@@ -209,7 +209,7 @@ class AvalancheStatusReport
 
         }
         
-        //read in the last (most high up) AVLevel, when all subdivs are processed
+        //read in the last (highest) AVLevel, when all subdivsions are processed
         Console.WriteLine("Geben Sie die Lagestufe an.");
         Console.WriteLine("1-gering, 2-mäßig, 3-erheblich, 4-groß, 5-sehr groß");
         input=Console.ReadLine();
@@ -248,7 +248,7 @@ class AvalancheStatusReport
         for (int i = 0; i < 8; i++)     //for each celestial direction
         {
             List<SnowProblem> SPList = new List<SnowProblem>();             //new List for the SnowProblems of each direction
-            Console.WriteLine($"{Enum.GetName(typeof(Direction), i)}:");    //Print the direction 
+            Console.WriteLine($"{Enum.GetName(typeof(Direction), i)}:");    //print the direction 
             input=Console.ReadLine();                                       //read the SnowProblems from the Console
             while (input==null)
             {
@@ -279,14 +279,14 @@ class AvalancheStatusReport
                 }
             }
             
-            SnowProblem_Direction.Add((Direction)i,SPList);     //Add the the celestial direction with the dependet list of SnowProblems to the dictionary 
+            SnowProblem_Direction.Add((Direction)i,SPList);     //Add the celestial direction with the dependent list of SnowProblems to the dictionary 
         }
 
         Console.Clear();
         printReport();
     }
 
-    public AvalancheStatusReport(object test) //Constructor Importing an examplary AvalancheStatusreport (the one given in Wiki under "Entwurf")
+    public AvalancheStatusReport(object test) //Constructor importing an examplary AvalancheStatusreport (the one given in Wiki "Entwurf")
     {
         const int subdivision_upperLimit=1800;                          //exemplary values
         const AvalancheLevel ALunderSubdiv = AvalancheLevel.mäßig;
