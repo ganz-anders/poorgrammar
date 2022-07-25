@@ -1,7 +1,7 @@
 class Logging
 {
-    private string? Filepath;        //filepath to which the logging is written to
-    public void LogPosition(object? caller, PositionChangedEventArgs args)   //logs the overhanded position when invocated
+    private static string? Filepath;        //filepath to which the logging is written to
+    public static void LogPosition(object? caller, PositionChangedEventArgs args)   //logs the overhanded position when invocated
     {
         if(Filepath!=null)
         {
@@ -13,7 +13,7 @@ class Logging
             Console.WriteLine("Error! Logging not possible.");
         }
     }
-    public void LogWarning(object? caller,RiskEventArgs args)        //logs warning and some important information to `filepath`
+    public static void LogWarning(object? caller,RiskEventArgs args)        //logs warning and some important information to `filepath`
     {
         if(Filepath!=null)
         {
@@ -22,7 +22,6 @@ class Logging
             //print the warning:
             sw.WriteLine($"----------\nLawinengefahr.{args.Time}");
             sw.WriteLine($"Risiko für einen Lawinenabgang: {Enum.GetName(args.RiskLevel)}");
-            sw.WriteLine($"Exposition: {args.Direction}");
             sw.WriteLine($"Besonders folgende Schneeprobleme: ");
             foreach (SnowProblem item in args.SnowProblems)
             {
