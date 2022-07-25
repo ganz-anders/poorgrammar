@@ -3,16 +3,16 @@
 * `public Map()`
 liest die Karte aus dem direkt im Konstruktor gespeicherten Pfad `const string fileaddress="data/map.txt"` ein und füllt die Felder der Klasse. Mehr im Abschnitt "Zu-Grunde-liegende Karte"
 ## Felder
-* `private const float Grid=250.0f;` //Gitter in m  
-* `private Position NWReference;` //Referenz Punkt am Nord-West Ende der Karte  
-* `private Position SEReference;` //Referenzpunkt gegenüber  
-* `private string UTMZoneReference;` //UTM Zonen Referenz, nicht benötigt im Weiteren  
-* `private double[][] MapData;` //Höhenrasterdaten
+* `private const float Grid=250.0f` Gitter in m  
+* `private Position NWReference` Referenz Punkt am Nord-West Ende der Karte  
+* `private Position SEReference` Referenzpunkt gegenüber  
+* `private string UTMZoneReference` UTM Zonen Referenz, nicht benötigt im Weiteren  
+* `private double[][] MapData` Höhenrasterdaten
 ## Methoden
-* `public bool PositionOnMap(Position position)` //gibt true zurück, wenn die übergebene Position sich auf der Karte befindet  
-* `public int getGradient(Position position)` //Berechnet den Gradienten an der Stelle der übergebenen Position auf Grundlage der Karte (`MapData`), prüft vorher `PositionOnMap`  
-* `public Direction? getDirection(Position position)` //Berechnet die Exposition/Himmelsrichtung an der übergebenen Position, prüft vorher `PositionOnMap`  
-* `public int getHeightAboveSL(Position position)` //Berechnet die Höhe über NN an der übergebenen Position auf Basis von bilinearer Interpolation, prüft vorher `PositionOnMap`  
+* `public bool PositionOnMap(Position position)` gibt true zurück, wenn die übergebene Position sich auf der Karte befindet  
+* `public int getGradient(Position position)` Berechnet den Gradienten an der Stelle der übergebenen Position auf Grundlage der Karte (`MapData`), prüft vorher `PositionOnMap`  
+* `public Direction? getDirection(Position position)` Berechnet die Exposition/Himmelsrichtung an der übergebenen Position, prüft vorher `PositionOnMap`  
+* `public int getHeightAboveSL(Position position)` Berechnet die Höhe über NN an der übergebenen Position auf Basis von bilinearer Interpolation, prüft vorher `PositionOnMap`  
 
 ## Zu-Grunde-liegende Karte
 Die Karte wird durch den Konstruktor unter dem Pfad `data/map.txt` geladen. Sie stellt ein Array dar, was aus der Textdatei geladen wird. Die Textdatei muss daher einem strengen Aufbau folgen, um vom Programm akzeptiert zu werden:
