@@ -18,5 +18,5 @@ Die Abhängigkeiten dabei ergeben sich wie folgt: Die Lawinenlagestufe hängt pr
 
 Zur Demonstration der Software läuft unser System zur Zeit in einer Simulation, die das Warn-System ausführt und die Bewegung des Sytems bzw. Änderung der Position entlang einer Testroute simuliert. Es ist ein Test-Lawinenlagebericht implementiert, aber Sie können selbstverständlich auch den tagesaktuellen LLB eingeben.
 
-
-
+### Das Wiki
+Das Wiki enthält das Klassendiagramm, den Entwurf und vor allem unsere Dokumentation
