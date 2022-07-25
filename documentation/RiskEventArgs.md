@@ -1,2 +1,2 @@
 # **`RiskEventArgs` Doku**
-Klasser der Warnungen, die im Falle eines Gefahrenevents übergeben und ausgelöst werden. Enthält die aktuelle Position, Zeit, das Schneeproblem und das Gefahrenlevel.
+Von `EventArgs` abgeleitete Klasse, die die aktuelle Position, Zeit, eine Liste der Schneeprobleme und das persönliche Gefährdungslevel enthält. Die Klasse besitzt einen  Konstruktor der Signatur `public RiskEventArgs(Position position, DateTime time, RiskLevel riskLevel, List<SnowProblem> snowProblems)`. Ein Objekt dieser Klasse wird, wenn das zugehörige Event ausgelöst wird, als Argument an die passende Warnfunktion weitergegeben.
