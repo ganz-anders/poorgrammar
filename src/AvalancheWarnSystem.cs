@@ -131,9 +131,9 @@ class AvalancheWarnSystem
        }
 
         //link the associated Logging methods to the events
-        OnPositionChanged+= new EventHandler<PositionChangedEventArgs>(Logging.LogPosition);
-        OnRiskmid+= new EventHandler<RiskEventArgs>(Logging.LogWarning);
-        OnRiskhigh+= new EventHandler<RiskEventArgs>(Logging.LogWarning);
+        OnPositionChanged+= new EventHandler<PositionChangedEventArgs>(myLogging.LogPosition);
+        OnRiskmid+= new EventHandler<RiskEventArgs>(myLogging.LogWarning);
+        OnRiskhigh+= new EventHandler<RiskEventArgs>(myLogging.LogWarning);
         Console.WriteLine("Logging eingerichtet. Sie finden die Datei unter " + Logfilepath);
     }
 
