@@ -1,2 +1,2 @@
 # **`PositionChangedEventArgs` Doku**
-Klasse, die durch ein übergebenes Event ausgelöst wird und die die wichtigsten Informationen Zeit und Position enthält. Diese Argumente werden, wird die Klasse ausgelöst, an die Logging Funktion weitergegeben.
+Von `EventArgs` abgeleitete Klasse, die die wichtigsten Informationen Zeit und Position enthält. Enthält Konstruktor der Signatur `public PositionChangedEventArgs(Position position, DateTime time)`. Ein Objekt dieser Klasse wird, wenn das zugehörige Event ausgelöst wird, als Argument an die passnede Logging Funktion weitergegeben.
