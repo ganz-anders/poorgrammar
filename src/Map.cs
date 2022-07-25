@@ -30,10 +30,10 @@ class Map
         yGrad=(((P21-P11)/Grid)+((P22-P12)/Grid))/2;
         xGrad=(((P12-P11)/Grid)+((P22-P21)/Grid))/2;
 
-        yGrad=Math.Abs(yGrad);                          //only the absolut values ,bc. gradient can be in every direction
+        yGrad=Math.Abs(yGrad);                          //only the absolut values, bc. gradient can be in every direction
         xGrad=Math.Abs(xGrad);
 
-        Grad=Math.Sqrt(xGrad*xGrad+yGrad*yGrad);        //accumulatin the gradient in x and y direction
+        Grad=Math.Sqrt(xGrad*xGrad+yGrad*yGrad);        //accumulating the gradient in x and y direction
         
         Grad=Math.Atan(Grad)*(180/Math.PI);             //returning the gradient in degree
 
@@ -42,7 +42,7 @@ class Map
 
         return((int)Grad);
     }
-    public Direction? getDirection(Position position)       //calculates the exposition of the handed over position based on the gradient
+    public Direction? getDirection(Position position)       //calculates the exposition of the position that has been handed over based on the gradient
     {
         if (!PositionOnMap(position))
         {
