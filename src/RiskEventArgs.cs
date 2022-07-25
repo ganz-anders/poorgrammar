@@ -6,11 +6,13 @@ class RiskEventArgs:EventArgs
     public DateTime Time;
     public RiskLevel RiskLevel;
     public List<SnowProblem> SnowProblems;
-    public RiskEventArgs(Position position, DateTime time, RiskLevel riskLevel, List<SnowProblem> snowProblems)
+    public Direction? Direction;
+    public RiskEventArgs(Position position, DateTime time, RiskLevel riskLevel, List<SnowProblem> snowProblems, Direction? dir)
     {
         Position=position;
         Time=time;
         SnowProblems=snowProblems;
         RiskLevel=riskLevel;
+        Direction=dir;
     }
 }

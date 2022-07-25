@@ -63,11 +63,11 @@ class AvalancheWarnSystem
                     if (myExposition!=null)
                         {   
                             //trigger event with new EventArgs with the Snow problems if direction is given
-                            OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction((Direction)myExposition)));
+                            OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction((Direction)myExposition), myExposition));
                         }else
                         {
                             //trigger event with new EventArgs without Snow Problems (empty list)
-                            OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, new List<SnowProblem>()));
+                            OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, new List<SnowProblem>(),myExposition));
                         }
                }
                 break;
@@ -78,11 +78,11 @@ class AvalancheWarnSystem
                     if (myExposition!=null)
                     {
                         //trigger event with new EventArgs with the Snow problems if direction is given
-                        OnRiskhigh(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction((Direction)myExposition)));   
+                        OnRiskhigh(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction((Direction)myExposition), myExposition));   
                     }else
                     {
                         //trigger event with new EventArgs without Snow Problems (empty list)
-                        OnRiskhigh(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, new List<SnowProblem>()));
+                        OnRiskhigh(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, new List<SnowProblem>(), myExposition));
                     }
                 }
                 break;

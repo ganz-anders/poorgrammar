@@ -22,6 +22,7 @@ class Logging
             //print the warning:
             sw.WriteLine($"----------\nLawinengefahr.{args.Time}");
             sw.WriteLine($"Risiko für einen Lawinenabgang: {Enum.GetName(args.RiskLevel)}");
+            sw.WriteLine($"Exposition: {args.Direction}");
             sw.WriteLine($"Besonders folgende Schneeprobleme: ");
             foreach (SnowProblem item in args.SnowProblems)
             {
