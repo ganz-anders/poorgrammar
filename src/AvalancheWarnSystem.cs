@@ -1,18 +1,18 @@
 class AvalancheWarnSystem
 {
-    public event EventHandler<PositionChangedEventArgs>? OnPositionChanged; //event, triggerd from manipulate position method
+    public event EventHandler<PositionChangedEventArgs>? OnPositionChanged; //event, triggerd from manipulated position method
     public event EventHandler<RiskEventArgs>? OnRiskmid;    //event, triggerd from EvaluatePosition method, when risk is mid
     public event EventHandler<RiskEventArgs>? OnRiskhigh;   //event, triggerd from EvaluatePsoition method, when risk is high
     private Logging? myLogging;     //object of the Logging class - provides logging methods if not null
     public Map thisMap;
     public AvalancheStatusReport myAVSReport;
-    public RiskLevel[][] RiskMatrix;        //Matrix[Gradient][AVLevel] wich contains an RiskLevel
+    public RiskLevel[][] RiskMatrix;        //Matrix[Gradient][AVLevel] which contains a RiskLevel
                                             //Gradient 0 represents <30°, 1 repr. <35°, 2 repr. <40°, 3 repr. >=40°
     private Position CurrentPosition;       //represents the current position of the system, in field usage this could be obtained from a gps sensor
 
     public void manipulatePosition(Position position)
     /*method for manipulating the position - only in this test implementation of the Warn System.
-    In field usage, the position is obtained from a sensor (see above),so this method will be removed*/
+    In field usage, the position is obtained from a sensor (see above), so this method will be removed*/
     {
         this.CurrentPosition=position;
         if (OnPositionChanged!=null)    //log the Position if Logging is prepared (not null)
@@ -21,13 +21,13 @@ class AvalancheWarnSystem
         }
     }
 
-    public void EvaluatePosition()                                  //method, which evaluates the Position regarding the Risk
+    public void EvaluatePosition()                                  //method, which evaluates the Position regarding the risk
     {
         Position myPosition = CurrentPosition;                      //copy of the current position, so it does not change while evaluating
         int myGradient=thisMap.getGradient(myPosition);             //get the Gradient of the position from map
         Direction? myExposition=thisMap.getDirection(myPosition);   //get celestial direction from map
         int myHeight=thisMap.getHeightAboveSL(myPosition);          //get height above sealevel from map
-        RiskLevel myRisk;                                           //field for the risk wich will be used for assessing wich (or if) Event to trigger
+        RiskLevel myRisk;                                           //field for the risk which will be used for assessing which (or if) Event to trigger
 
         //assess the gradient and get the belonging entry of the RiskMatrix with height
         switch (myGradient)
@@ -92,7 +92,7 @@ class AvalancheWarnSystem
     }
 
     public void CountinuousEvaluatePosition(object? sleepTime)
-    //method wich continously is running the EvaluatePosition method (see above) with handed over or standard offset time between the executions
+    //method which continously is running the EvaluatePosition method (see above) with handed over or standard offset time between the executions
     {
         const int StandardSleepTime=500;
         int SleepTime;
@@ -137,9 +137,9 @@ class AvalancheWarnSystem
         Console.WriteLine("Logging eingerichtet. Sie finden die Datei unter " + Logfilepath);
     }
 
-    private void ConfigurateWarnings()  //method wich is called by constructor to configurate the warnings
+    private void ConfigurateWarnings()  //method which is called by constructor to configurate the warnings
     {
-        //asking the user if he/she want to customize warnings
+        //asking the user if they want to customize warnings
         Console.WriteLine("Wollen Sie die Warnungen selbst einstellen? [y/n]\nAnsonsten werden die Standards geladen.");
         string? input=Console.ReadLine();
         bool isinput=false;
