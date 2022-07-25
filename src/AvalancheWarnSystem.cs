@@ -1,30 +1,35 @@
 class AvalancheWarnSystem
 {
-    public event EventHandler<PositionChangedEventArgs>? OnPositionChanged;
-    public event EventHandler<RiskEventArgs>? OnRiskmid;
-    public event EventHandler<RiskEventArgs>? OnRiskhigh;
-    private Logging? myLogging;
+    public event EventHandler<PositionChangedEventArgs>? OnPositionChanged; //event, triggerd from manipulate position method
+    public event EventHandler<RiskEventArgs>? OnRiskmid;    //event, triggerd from EvaluatePosition method, when risk is mid
+    public event EventHandler<RiskEventArgs>? OnRiskhigh;   //event, triggerd from EvaluatePsoition method, when risk is high
+    private Logging? myLogging;     //object of the Logging class - provides logging methods if not null
     public Map thisMap;
     public AvalancheStatusReport myAVSReport;
     public RiskLevel[][] RiskMatrix;        //Matrix[Gradient][AVLevel] wich contains an RiskLevel
                                             //Gradient 0 represents <30°, 1 repr. <35°, 2 repr. <40°, 3 repr. >=40°
-    private Position CurrentPosition;
+    private Position CurrentPosition;       //represents the current position of the system, in field usage this could be obtained from a gps sensor
+
     public void manipulatePosition(Position position)
+    /*method for manipulating the position - only in this test implementation of the Warn System.
+    In field usage, the position is obtained from a sensor (see above),so this method will be removed*/
     {
         this.CurrentPosition=position;
-        if (OnPositionChanged!=null)
+        if (OnPositionChanged!=null)    //log the Position if Logging is prepared (not null)
         {
             OnPositionChanged(this, new PositionChangedEventArgs(position, DateTime.Now));
         }
     }
-    public void EvaluatePosition()
-    {
-        Position myPosition = CurrentPosition;
-        int myGradient=thisMap.getGradient(myPosition);
-        Direction? myExposition=thisMap.getDirection(myPosition);
-        int myHeight=thisMap.getHeightAboveSL(myPosition);
-        RiskLevel myRisk;
 
+    public void EvaluatePosition()                                  //method, which evaluates the Position regarding the Risk
+    {
+        Position myPosition = CurrentPosition;                      //copy of the current position, so it does not change while evaluating
+        int myGradient=thisMap.getGradient(myPosition);             //get the Gradient of the position from map
+        Direction? myExposition=thisMap.getDirection(myPosition);   //get celestial direction from map
+        int myHeight=thisMap.getHeightAboveSL(myPosition);          //get height above sealevel from map
+        RiskLevel myRisk;                                           //field for the risk wich will be used for assessing wich (or if) Event to trigger
+
+        //assess the gradient and get the belonging entry of the RiskMatrix with height
         switch (myGradient)
         {
             case <30:
@@ -40,11 +45,12 @@ class AvalancheWarnSystem
                 myRisk=RiskMatrix[3][(int)myAVSReport.getAvalancheLevel_Height(myHeight)];
                 break;
             default:
-                myRisk=RiskLevel.hoch;
+                myRisk=RiskLevel.hoch;  //risk could possibly be high - assume the worst
                 Console.WriteLine("Error. Fehler bei der Berechnung des Gradienten.");
                 break;
         }
 
+        //assess the calculated risk and trigger belongig event
         switch (myRisk)
         {
             case RiskLevel.niedrig:
@@ -53,11 +59,14 @@ class AvalancheWarnSystem
             case RiskLevel.mittel:
                if (OnRiskmid!=null)
                {
+                    //trigger OnRiskmid event
                     if (myExposition!=null)
-                        {
+                        {   
+                            //trigger event with new EventArgs with the Snow problems if direction is given
                             OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction((Direction)myExposition)));
                         }else
                         {
+                            //trigger event with new EventArgs without Snow Problems (empty list)
                             OnRiskmid(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, new List<SnowProblem>()));
                         }
                }
@@ -65,11 +74,14 @@ class AvalancheWarnSystem
             case RiskLevel.hoch:
                 if (OnRiskhigh!=null)
                 {
+                    //trigger OnRiskhigh event
                     if (myExposition!=null)
                     {
+                        //trigger event with new EventArgs with the Snow problems if direction is given
                         OnRiskhigh(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, myAVSReport.getSnowProblem_Direction((Direction)myExposition)));   
                     }else
                     {
+                        //trigger event with new EventArgs without Snow Problems (empty list)
                         OnRiskhigh(this, new RiskEventArgs(myPosition, DateTime.Now, myRisk, new List<SnowProblem>()));
                     }
                 }
@@ -80,45 +92,54 @@ class AvalancheWarnSystem
     }
 
     public void CountinuousEvaluatePosition(object? sleepTime)
+    //method wich continously is running the EvaluatePosition method (see above) with handed over or standard offset time between the executions
     {
         const int StandardSleepTime=500;
         int SleepTime;
-        if (sleepTime!=null)
+        if (sleepTime!=null)    //if sleepTime is handed over, use this value
         {
             try
             {
                 SleepTime = Convert.ToInt32(sleepTime as int?);
             }
-            catch (System.Exception)
+            catch (System.Exception)    //if handed over sleepTime not processible, use standard value
             {
                 Console.WriteLine("SleepTime of the continuous Position Evaluation not processible. Loading Standards...");
                 SleepTime=StandardSleepTime;
             }
         } else 
         {
+            //use standard value
             SleepTime=StandardSleepTime;
         }
         while (true)
         {
-            Console.Write(".");
-            EvaluatePosition();
-            Thread.Sleep(SleepTime);
+            Console.Write(".");         //printing dots on Console, to show that system is running
+            EvaluatePosition();         //execute EvaluatePosition method
+            Thread.Sleep(SleepTime);    //then pause for sleepTime before next execution
         }
     }
-    private void InitiateLogging()
-    {
-        const string Logfilepath="data/LogDatei.txt";
-        myLogging = new Logging(Logfilepath);
-        
-        myAVSReport.printReport(Logfilepath);
 
+    private void InitiateLogging()  //method which is called by ConfigurateWarnings if Logging should be initiated
+    {
+        const string Logfilepath="data/LogDatei.txt";   //constant filepath for logging file
+        myLogging = new Logging(Logfilepath);           //creating new object of Logging class
+        
+       if (myAVSReport!=null)
+       {
+            myAVSReport.printReport(Logfilepath);       //print the AVS report to the log file to begin new logging session
+       }
+
+        //link the associated Logging methods to the events
         OnPositionChanged+= new EventHandler<PositionChangedEventArgs>(Logging.LogPosition);
         OnRiskmid+= new EventHandler<RiskEventArgs>(Logging.LogWarning);
         OnRiskhigh+= new EventHandler<RiskEventArgs>(Logging.LogWarning);
         Console.WriteLine("Logging eingerichtet. Sie finden die Datei unter " + Logfilepath);
     }
-    private void ConfigurateWarnings()
+
+    private void ConfigurateWarnings()  //method wich is called by constructor to configurate the warnings
     {
+        //asking the user if he/she want to customize warnings
         Console.WriteLine("Wollen Sie die Warnungen selbst einstellen? [y/n]\nAnsonsten werden die Standards geladen.");
         string? input=Console.ReadLine();
         bool isinput=false;
@@ -150,7 +171,7 @@ class AvalancheWarnSystem
             }   
         } while (!isinput);
 
-        if (selfConfig) //self configuration of warnings
+        if (selfConfig) 
         {
             try
             {
@@ -265,11 +286,12 @@ class AvalancheWarnSystem
             }
         }
 
-        if (!selfConfig)    //also true if selfconfig failed
+        if (!selfConfig) //if no customizing wanted (or selfconfig failed)
         {
             Console.WriteLine("Standards werden geladen.");
-            InitiateLogging();
+            InitiateLogging();  //turn logging on
             
+            //linking the warn methods to the belonging events according to standards
             OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.PushMessage);
             OnRiskmid+= new EventHandler<RiskEventArgs>(Warnings.Sound);
 
@@ -278,10 +300,10 @@ class AvalancheWarnSystem
         }
     }
 
-    private RiskLevel[][] RiskMatrixFromTxt(string path)
+    private RiskLevel[][] RiskMatrixFromTxt(string path)    //called from constructor - reads in RiskMatrix from file
     {
+        //creating new array of arrays
         RiskLevel[][] ReturnMatrix= new RiskLevel[4][];
-            
         for (int i = 0; i < ReturnMatrix.Length; i++)
         {
             ReturnMatrix[i]= new RiskLevel[5];
@@ -289,6 +311,7 @@ class AvalancheWarnSystem
 
         try
         {
+            //new StreamReader for filepath
             StreamReader sr;
             try
             {
@@ -299,9 +322,10 @@ class AvalancheWarnSystem
                 Console.WriteLine("Error. Risk Matrix not found. Moved or deleted?");
                 throw;
             }
+
             string? buffer;
             string[] inputs;
-            
+            //reading in Matrix from StreamReader
             for (int i = 0; i < 4; i++)
             {
                 buffer=sr.ReadLine();
@@ -323,10 +347,10 @@ class AvalancheWarnSystem
             throw;
         }
 
-        return ReturnMatrix;
+        return ReturnMatrix;    //return the gained matrix
     }
 
-    public AvalancheWarnSystem()
+    public AvalancheWarnSystem()    //standard constructor of the class
     {
         const string RiskMatrixPath="data/RiskMatrix.txt";
         RiskMatrix=RiskMatrixFromTxt(RiskMatrixPath);
@@ -334,7 +358,8 @@ class AvalancheWarnSystem
         thisMap=new Map();
         ConfigurateWarnings();
     }
-    public AvalancheWarnSystem(object test)
+
+    public AvalancheWarnSystem(object test)     //constructor of the class loads the standard-test Avalanche Status Report for Test purposes
     {
         const string RiskMatrixPath="data/RiskMatrix.txt";
         RiskMatrix=RiskMatrixFromTxt(RiskMatrixPath);
