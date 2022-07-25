@@ -1,7 +1,6 @@
 # **`Position` Doku**
-Enthält die aktuelle Position des Skitourers.
+Feld, dass die Werte für geographische Länge (longitude, x-Wert, Rechtswert, Ost-West, ...) und Breite (latitude, y-Wert, Hochwert, Nord-Süd,  ...) zur Verwendung in generischen Datentypen in einer Variable zusammenfasst. Enthält für einfache Benutzung Konstruktor und ToString() Methode für die unkomplizierte Ausgabe.
 ## Konstruktoren
-` public Position(int x, int y) ` ist ein Konstruktor, der es einfach macht die position zu verwenden, indem er die Variablen x und y umbenennt nach Länge (Ost-West) und Breite (Nord-Süd).
-
+* `public Position(int x, int y) `
 ## Methoden
-`public override string ToString()` wandelt die Position für die leichtere Consolenausgabe um in einen String.
+* `public override string ToString()` gibt String mit der Position in der Form "O"(x-Wert)"N"(y-Wert) zurück 
